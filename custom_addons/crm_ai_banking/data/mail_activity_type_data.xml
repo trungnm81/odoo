@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- No custom activity types needed in Phase 1 — reuse mail built-ins -->
+</odoo>

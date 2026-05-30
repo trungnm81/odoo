@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Daily Digest: chạy lúc 8:00 sáng mỗi ngày -->
+    <record id="ir_cron_crm_ai_daily_digest" model="ir.cron">
+        <field name="name">CRM AI: Daily Digest</field>
+        <field name="model_id" search="[('model','=','crm.lead')]"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_send_daily_digest()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="nextcall">2026-05-30 01:00:00</field>
+        <field name="active">True</field>
+    </record>
+
+    <!-- Cold Lead Alert: chạy lúc 9:00 sáng mỗi ngày -->
+    <record id="ir_cron_crm_ai_cold_lead_alert" model="ir.cron">
+        <field name="name">CRM AI: Cold Lead Alert</field>
+        <field name="model_id" search="[('model','=','crm.lead')]"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_cold_lead_alert()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="nextcall">2026-05-30 02:00:00</field>
+        <field name="active">True</field>
+    </record>
+
+    <!-- Large Deal Alert: chạy lúc 9:30 sáng mỗi ngày -->
+    <record id="ir_cron_crm_ai_large_deal_alert" model="ir.cron">
+        <field name="name">CRM AI: Large Deal Alert</field>
+        <field name="model_id" search="[('model','=','crm.lead')]"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_large_deal_alert()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="nextcall">2026-05-30 02:30:00</field>
+        <field name="active">True</field>
+    </record>
+
+
+    <!-- NBA Refresh: chạy hàng ngày để cập nhật Next Best Action -->
+    <record id="ir_cron_crm_ai_nba_refresh" model="ir.cron">
+        <field name="name">CRM AI: Refresh NBA (Next Best Action)</field>
+        <field name="model_id" search="[('model','=','crm.lead')]"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_refresh_nba()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="nextcall">2026-05-30 03:00:00</field>
+        <field name="active">True</field>
+    </record>
+
+    <!-- Birthday Activities: chạy 7:00 sáng mỗi ngày -->
+    <record id="ir_cron_crm_ai_birthday_activities" model="ir.cron">
+        <field name="name">CRM AI: Birthday Activity Reminder</field>
+        <field name="model_id" search="[('model','=','crm.lead')]"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_birthday_activities()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="nextcall">2026-05-31 00:00:00</field>
+        <field name="active">True</field>
+    </record>
+
+    <!-- Deposit Maturity Alert: chạy 7:30 sáng mỗi ngày -->
+    <record id="ir_cron_crm_ai_deposit_maturity" model="ir.cron">
+        <field name="name">CRM AI: Deposit Maturity Alert</field>
+        <field name="model_id" search="[('model','=','crm.lead')]"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_deposit_maturity_alert()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="nextcall">2026-05-31 00:30:00</field>
+        <field name="active">True</field>
+    </record>
+
+    <!-- Loan Repayment Alert: chạy hàng tuần thứ Hai -->
+    <record id="ir_cron_crm_ai_loan_repayment" model="ir.cron">
+        <field name="name">CRM AI: Loan Repayment Follow-up</field>
+        <field name="model_id" search="[('model','=','crm.lead')]"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_loan_repayment_alert()</field>
+        <field name="interval_number">7</field>
+        <field name="interval_type">days</field>
+        <field name="nextcall">2026-06-02 01:00:00</field>
+        <field name="active">True</field>
+    </record>
+
+    <!-- Core Banking staging processor: xử lý các batch daily đã nạp vào CRM -->
+    <record id="ir_cron_corebanking_daily_staging" model="ir.cron">
+        <field name="name">CRM AI: Core Banking Daily Staging Sync</field>
+        <field name="model_id" search="[('model','=','crm.corebanking.customer.batch')]"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_process_daily_staging()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="nextcall">2026-05-30 18:00:00</field>
+        <field name="active">True</field>
+    </record>
+
+</odoo>

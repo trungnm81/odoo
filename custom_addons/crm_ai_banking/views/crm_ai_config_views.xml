@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="crm_ai_config_form_view" model="ir.ui.view">
+        <field name="name">crm.ai.config.form</field>
+        <field name="model">crm.ai.config</field>
+        <field name="arch" type="xml">
+            <form string="AI Banking Configuration">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <notebook>
+                        <page string="LLM (Claude)" name="llm">
+                            <group>
+                                <field name="llm_provider" widget="radio"/>
+                            </group>
+                            <group invisible="llm_provider != 'openrouter'">
+                                <group string="OpenRouter — LLM">
+                                    <field name="openrouter_api_key" password="True"
+                                           help="Dùng chung với OCR nếu cả 2 đều dùng OpenRouter"/>
+                                    <field name="openrouter_llm_model_text"/>
+                                    <field name="openrouter_llm_model_vision"/>
+                                </group>
+                            </group>
+                            <group invisible="llm_provider != 'anthropic'">
+                                <group string="Anthropic API (trực tiếp)">
+                                    <field name="claude_api_key" password="True"/>
+                                </group>
+                            </group>
+                            <group>
+                                <button name="action_test_claude" type="object"
+                                        string="Test LLM Connection" class="btn-secondary"/>
+                            </group>
+                        </page>
+
+                        <page string="OCR" name="ocr">
+                            <group>
+                                <field name="ocr_provider" widget="radio"/>
+                            </group>
+                            <group invisible="ocr_provider != 'openrouter'">
+                                <group string="OpenRouter — OCR">
+                                    <div class="text-muted mb-2" colspan="2">
+                                        API Key dùng chung với tab LLM (OpenRouter)
+                                    </div>
+                                    <field name="openrouter_ocr_model"/>
+                                </group>
+                            </group>
+                            <group invisible="ocr_provider != 'local'">
+                                <group string="Local OCR Server">
+                                    <field name="ocr_local_endpoint"/>
+                                    <field name="ocr_local_api_key" password="True"/>
+                                </group>
+                            </group>
+                            <group>
+                                <button name="action_test_ocr" type="object"
+                                        string="Test OCR Connection" class="btn-secondary"/>
+                            </group>
+                        </page>
+
+                        <page string="STT (Speech-to-Text)" name="stt">
+                            <group string="Batch Transcription — upload file sau cuộc gọi">
+                                <field name="stt_batch_provider" widget="radio"/>
+                                <group invisible="stt_batch_provider != 'api'">
+                                    <field name="whisper_api_key" password="True"/>
+                                    <field name="whisper_api_endpoint"/>
+                                    <field name="whisper_api_model"/>
+                                </group>
+                                <group invisible="stt_batch_provider != 'local'">
+                                    <field name="whisper_local_endpoint"/>
+                                    <field name="whisper_local_api_key" password="True"/>
+                                    <field name="whisper_local_model"/>
+                                </group>
+                                <group>
+                                    <button name="action_test_stt_batch" type="object"
+                                            string="Test STT Batch" class="btn-secondary"/>
+                                </group>
+                            </group>
+                            <separator/>
+                            <group string="Realtime Transcription — màn hình gọi trực tiếp">
+                                <field name="stt_realtime_provider" widget="radio"/>
+                                <group invisible="stt_realtime_provider != 'api'">
+                                    <field name="deepgram_api_key" password="True"/>
+                                    <field name="deepgram_model"/>
+                                </group>
+                                <group invisible="stt_realtime_provider != 'local'">
+                                    <field name="whisper_streaming_ws"/>
+                                    <field name="whisper_streaming_key" password="True"/>
+                                </group>
+                                <group>
+                                    <button name="action_test_stt_realtime" type="object"
+                                            string="Test STT Realtime" class="btn-secondary"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Twilio Voice" name="twilio">
+                            <group string="Twilio Programmable Voice">
+                                <field name="twilio_account_sid"/>
+                                <field name="twilio_auth_token" password="True"/>
+                                <field name="twilio_phone_number"/>
+                                <field name="twilio_agent_phone"/>
+                                <field name="twilio_public_url"/>
+                            </group>
+                            <div class="alert alert-warning py-2 small" colspan="2">
+                                <strong>⚠️ Twilio cần URL công khai</strong> để gọi callback vào hệ thống.<br/>
+                                Trong môi trường dev: cài <strong>ngrok</strong> →
+                                <code>ngrok http 8069</code> → copy URL HTTPS vào field <em>Public URL</em>.<br/>
+                                Trong production: điền domain thật VD: <code>https://crm.congty.vn</code>
+                            </div>
+                            <group>
+                                <div class="text-muted small mb-2" colspan="2">
+                                    TwiML Voice URL (điền vào Twilio Console → TwiML App → Voice URL):
+                                    <br/><code>/crm/ai/twilio/voice</code>
+                                    <br/>Status Callback URL:
+                                    <br/><code>/crm/ai/twilio/status</code>
+                                </div>
+                                <button name="action_test_twilio" type="object"
+                                        string="Test Twilio Connection" class="btn-secondary"/>
+                            </group>
+                        </page>
+
+                        <page string="Zalo OA" name="zalo">
+                            <group>
+                                <field name="zalo_oa_access_token" password="True"/>
+                                <field name="zalo_webhook_secret" password="True"/>
+                            </group>
+                        </page>
+
+                        <page string="Automation" name="automation">
+                            <group string="Email Processing">
+                                <field name="auto_process_email"/>
+                                <field name="auto_process_attachment"/>
+                            </group>
+                            <group string="Daily Digest">
+                                <field name="daily_digest_time" widget="float_time"/>
+                            </group>
+                            <group string="Lead Intelligence">
+                                <field name="cold_lead_threshold_days"/>
+                                <field name="large_deal_threshold"/>
+                                <field name="large_deal_no_manager_days"/>
+                            </group>
+                            <group string="Realtime Call">
+                                <field name="enable_ai_hints"/>
+                                <field name="ai_hints_interval_seconds"
+                                       invisible="not enable_ai_hints"/>
+                                <field name="enable_speaker_diarization"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="crm_ai_config_list_view" model="ir.ui.view">
+        <field name="name">crm.ai.config.list</field>
+        <field name="model">crm.ai.config</field>
+        <field name="arch" type="xml">
+            <list string="AI Configurations">
+                <field name="name"/>
+                <field name="ocr_provider"/>
+                <field name="stt_batch_provider"/>
+                <field name="stt_realtime_provider"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_crm_ai_config" model="ir.actions.act_window">
+        <field name="name">AI Configuration</field>
+        <field name="res_model">crm.ai.config</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

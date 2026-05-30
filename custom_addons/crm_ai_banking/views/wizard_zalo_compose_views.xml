@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_crm_ai_zalo_compose_form" model="ir.ui.view">
+        <field name="name">crm.ai.zalo.compose.form</field>
+        <field name="model">crm.ai.zalo.compose</field>
+        <field name="arch" type="xml">
+            <form string="Gửi tin nhắn Zalo">
+                <group>
+                    <field name="lead_id" readonly="1"/>
+                    <field name="zalo_user_id"/>
+                    <field name="message" widget="text" placeholder="Nhập nội dung tin nhắn..."/>
+                </group>
+
+                <!-- AI Drafts -->
+                <group string="✨ AI Gợi ý phản hồi" invisible="not draft_1 and not draft_2">
+                    <div invisible="not draft_1">
+                        <strong>Phương án 1:</strong>
+                        <p><field name="draft_1" readonly="1" nolabel="1"/></p>
+                        <button name="action_use_draft_1" type="object"
+                                string="Dùng phương án 1" class="btn-sm btn-outline-primary"/>
+                    </div>
+                    <div class="mt-2" invisible="not draft_2">
+                        <strong>Phương án 2:</strong>
+                        <p><field name="draft_2" readonly="1" nolabel="1"/></p>
+                        <button name="action_use_draft_2" type="object"
+                                string="Dùng phương án 2" class="btn-sm btn-outline-primary"/>
+                    </div>
+                </group>
+
+                <footer>
+                    <button name="action_get_ai_drafts" type="object"
+                            string="✨ AI Gợi ý" class="btn-secondary"/>
+                    <button name="action_send" type="object"
+                            string="📱 Gửi Zalo" class="btn-success"/>
+                    <button special="cancel" string="Huỷ" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

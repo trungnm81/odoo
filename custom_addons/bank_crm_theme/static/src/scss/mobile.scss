@@ -1,0 +1,250 @@
+// ============================================================
+// Bank CRM Theme — Mobile Responsive Fixes
+// Module: bank_crm_theme
+// Chỉ dùng CSS class, không dùng ID
+// Uninstall module này để hoàn toàn quay về giao diện gốc
+// ============================================================
+
+
+// ─── 0. BANKING BADGES ──────────────────────────────────────
+// Badge phân khúc KH (customer_segment từ Core Banking)
+.crm_badge_segment                          { background: #6c757d; color: #fff; font-size: 0.78rem; padding: 0.3em 0.6em; border-radius: 4px; }
+.crm_badge_segment[data-segment="DIAMOND"],
+.crm_badge_segment[data-segment="diamond"]  { background: #c9a227; color: #fff; }
+.crm_badge_segment[data-segment="PLATINUM"],
+.crm_badge_segment[data-segment="platinum"] { background: #a0a0b8; color: #fff; }
+.crm_badge_segment[data-segment="GOLD"],
+.crm_badge_segment[data-segment="gold"]     { background: #e8a000; color: #fff; }
+.crm_badge_segment[data-segment="SILVER"],
+.crm_badge_segment[data-segment="silver"]   { background: #888; color: #fff; }
+
+// Badge nhóm nợ (debt_group — Core Banking thường trả "1".."5" hoặc "Nhóm 1")
+.crm_badge_debt                                                   { background: #198754; color: #fff; font-size: 0.78rem; padding: 0.3em 0.6em; border-radius: 4px; }
+.crm_badge_debt[data-debt="1"], .crm_badge_debt[data-debt="Nhóm 1"] { background: #198754; color: #fff; }  // xanh lá
+.crm_badge_debt[data-debt="2"], .crm_badge_debt[data-debt="Nhóm 2"] { background: #ffc107; color: #000; }  // vàng
+.crm_badge_debt[data-debt="3"], .crm_badge_debt[data-debt="Nhóm 3"] { background: #fd7e14; color: #fff; }  // cam
+.crm_badge_debt[data-debt="4"], .crm_badge_debt[data-debt="Nhóm 4"] { background: #dc3545; color: #fff; }  // đỏ
+.crm_badge_debt[data-debt="5"], .crm_badge_debt[data-debt="Nhóm 5"] { background: #6f1c24; color: #fff; }  // đỏ đậm
+
+// Badge xếp hạng tín dụng + CIF
+.crm_badge_rating { background: #0054A5; color: #fff; font-size: 0.78rem; padding: 0.3em 0.6em; border-radius: 4px; }
+.crm_badge_cif    { background: #6c757d; color: #fff; font-size: 0.78rem; padding: 0.3em 0.6em; border-radius: 4px; font-family: monospace; }
+
+// Smart button Hồ Sơ 360° — màu nổi bật
+.o_banking_360_btn {
+    background: #0054A5 !important;
+    color: #fff !important;
+    .o_stat_text { color: #fff !important; font-weight: 700; }
+    &:hover { background: #003d7a !important; }
+}
+
+
+// ─── 1. HEADER BUTTONS ──────────────────────────────────────
+@include media-breakpoint-down(lg) {
+    .o_form_view .o_form_statusbar > button {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+    }
+}
+
+// Mobile: ẩn text giữ emoji
+@include media-breakpoint-down(md) {
+    .o_form_view .o_form_statusbar > button.btn-secondary {
+        font-size: 0;
+        padding: 0.3rem 0.6rem;
+        line-height: 1.4;
+        &::first-letter { font-size: 1.1rem; }
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .o_form_view .o_form_statusbar {
+        flex-wrap: wrap;
+        row-gap: 4px;
+    }
+}
+
+
+// ─── 2. STAT BUTTONS (oe_button_box) ────────────────────────
+@include media-breakpoint-down(sm) {
+    .o_form_view .oe_button_box {
+        .oe_stat_button {
+            min-width: 70px;
+            padding: 4px 8px;
+            .o_stat_info { font-size: 0.75rem; }
+        }
+    }
+}
+
+
+// ─── 3. NOTEBOOK TABS — đúng selector DOM Odoo 19 ───────────
+// DOM thực: .o_notebook > .o_notebook_headers > ul.nav-tabs > li.nav-item > a.nav-link
+
+@include media-breakpoint-down(md) {
+
+    // Container headers — scroll ngang
+    .o_form_view .o_notebook .o_notebook_headers {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        &::-webkit-scrollbar { display: none; }
+    }
+
+    // ul.nav-tabs — không wrap, rộng theo content
+    .o_form_view .o_notebook .o_notebook_headers .nav-tabs {
+        flex-wrap: nowrap;
+        border-bottom: 2px solid #dee2e6;
+        width: max-content;
+        min-width: 100%;
+    }
+
+    // li.nav-item — không co lại
+    .o_form_view .o_notebook .o_notebook_headers .nav-item {
+        flex-shrink: 0;
+    }
+
+    // a.nav-link — touch-friendly, underline style
+    .o_form_view .o_notebook .o_notebook_headers .nav-link {
+        white-space: nowrap;
+        font-size: 0.78rem;
+        padding: 0.5rem 0.75rem;
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        border-top: none;
+        border-bottom: 3px solid transparent;
+        color: #555;
+        background: transparent;
+
+        &.active {
+            color: #0054A5;
+            border-bottom-color: #0054A5;
+            font-weight: 600;
+            background: transparent;
+        }
+
+        &:hover:not(.active) {
+            border-bottom-color: #aac8e8;
+            background: #f5f8ff;
+        }
+    }
+
+    // Tab content padding
+    .o_form_view .o_notebook .o_notebook_content {
+        padding: 12px 8px;
+    }
+
+    // Ẩn TẤT CẢ tabs trừ internal_notes trên mobile
+    // JS (mobile_settings.js) xử lý tab pane, CSS này xử lý nav-link
+    .o_form_view .o_notebook .o_notebook_headers .nav-link:not([name="internal_notes"]) {
+        display: none !important;
+    }
+    // Luôn set internal_notes làm active khi các tab khác bị ẩn
+    .o_form_view .o_notebook .o_notebook_headers .nav-link[name="internal_notes"] {
+        display: flex !important;
+        color: #0054A5;
+        border-bottom-color: #0054A5;
+        font-weight: 600;
+    }
+}
+
+// Nút "⋯ Xem thêm" (inject từ JS)
+@include media-breakpoint-down(md) {
+    .bank_mobile_show_more_btn {
+        white-space: nowrap;
+        font-size: 0.78rem;
+        padding: 0.5rem 0.75rem;
+        min-height: 40px;
+        border: none;
+        border-bottom: 3px solid transparent;
+        background: transparent;
+        color: #0054A5;
+        cursor: pointer;
+        &:hover { background: #f5f8ff; }
+    }
+}
+@include media-breakpoint-up(md) {
+    .bank_mobile_show_more_btn { display: none !important; }
+}
+
+
+// ─── 4. INLINE BUTTONS TRONG TAB HEADER ─────────────────────
+@include media-breakpoint-down(sm) {
+    .o_form_view .o_notebook .tab-pane {
+        > .d-flex.justify-content-between {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+            > .d-flex.gap-2 {
+                width: 100%;
+                justify-content: flex-start;
+                flex-wrap: wrap;
+            }
+        }
+    }
+}
+
+
+// ─── 5. NBA BANNERS ─────────────────────────────────────────
+@include media-breakpoint-down(sm) {
+    .o_nba_closewon_banner,
+    .o_nba_banner {
+        > .d-flex.align-items-center.justify-content-between {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+            > .d-flex.gap-2 {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+        }
+        .btn {
+            font-size: 0.8rem;
+            padding: 0.2rem 0.5rem;
+        }
+    }
+}
+
+
+// ─── 6. LIST TABLE — scroll ngang trong tab ─────────────────
+@include media-breakpoint-down(lg) {
+    .o_form_view .o_notebook .tab-pane {
+        .o_list_view {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            .o_list_table { min-width: 650px; }
+        }
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .o_form_view .o_notebook .tab-pane {
+        .o_group.o_inner_group {
+            grid-template-columns: 1fr !important;
+        }
+    }
+}
+
+
+// ─── 7. FORM GROUPS — 2 cột → 1 cột trên mobile ────────────
+@include media-breakpoint-down(sm) {
+    .o_form_view .o_form_sheet .o_group {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+
+// ─── 8. DIALOG form (Banking 360 popup) ─────────────────────
+@include media-breakpoint-down(md) {
+    .o_dialog .o_form_view .o_group {
+        grid-template-columns: 1fr;
+    }
+    // Popup bảng tài chính — cho phép scroll ngang
+    .o_dialog .table-responsive, .o_dialog table {
+        font-size: 0.85rem;
+    }
+}

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <rect width="200" height="200" rx="20" fill="#1a73e8"/>
+  <text x="100" y="90" text-anchor="middle" font-size="60" fill="white">🤖</text>
+  <text x="100" y="145" text-anchor="middle" font-size="22" fill="white" font-family="Arial" font-weight="bold">CRM AI</text>
+  <text x="100" y="170" text-anchor="middle" font-size="16" fill="#a8d1ff" font-family="Arial">Banking</text>
+</svg>

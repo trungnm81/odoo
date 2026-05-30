@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_corebanking_customer_batch_list" model="ir.ui.view">
+        <field name="name">crm.corebanking.customer.batch.list</field>
+        <field name="model">crm.corebanking.customer.batch</field>
+        <field name="arch" type="xml">
+            <list string="Core Banking Sync Batches"
+                  decoration-warning="state == 'partial'"
+                  decoration-success="state == 'done'">
+                <field name="name"/>
+                <field name="sync_type"/>
+                <field name="source_ref"/>
+                <field name="state" widget="badge"/>
+                <field name="total_count"/>
+                <field name="profile_count"/>
+                <field name="holding_count"/>
+                <field name="created_count"/>
+                <field name="updated_count"/>
+                <field name="review_count"/>
+                <field name="error_count"/>
+                <field name="unmapped_segment_count"/>
+                <field name="started_at"/>
+                <field name="completed_at"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_corebanking_customer_batch_form" model="ir.ui.view">
+        <field name="name">crm.corebanking.customer.batch.form</field>
+        <field name="model">crm.corebanking.customer.batch</field>
+        <field name="arch" type="xml">
+            <form string="Core Banking Sync Batch">
+                <header>
+                    <button name="action_process" type="object" string="Xử lý staging"
+                            class="btn-primary" invisible="state == 'processing'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="sync_type"/>
+                            <field name="source_ref"/>
+                            <field name="allow_create_partner"/>
+                        </group>
+                        <group>
+                            <field name="started_at" readonly="1"/>
+                            <field name="completed_at" readonly="1"/>
+                            <field name="total_count" readonly="1"/>
+                            <field name="profile_count" readonly="1"/>
+                            <field name="holding_count" readonly="1"/>
+                            <field name="created_count" readonly="1"/>
+                            <field name="updated_count" readonly="1"/>
+                            <field name="review_count" readonly="1"/>
+                            <field name="error_count" readonly="1"/>
+                            <field name="unmapped_segment_count" readonly="1"/>
+                        </group>
+                    </group>
+                    <field name="note"/>
+                    <field name="line_ids" nolabel="1">
+                        <list editable="bottom"
+                              decoration-danger="state == 'error'"
+                              decoration-warning="state == 'manual_review'"
+                              decoration-success="state == 'done'">
+                            <field name="cif"/>
+                            <field name="record_type"/>
+                            <field name="customer_name"/>
+                            <field name="customer_type"/>
+                            <field name="segment_code"/>
+                            <field name="source_ref"/>
+                            <field name="product_code"/>
+                            <field name="product_name"/>
+                            <field name="segment_name"/>
+                            <field name="customer_status"/>
+                            <field name="identity_number"/>
+                            <field name="partner_id" readonly="1"/>
+                            <field name="state" widget="badge" readonly="1"/>
+                            <field name="action_taken" readonly="1"/>
+                            <field name="error_message" readonly="1"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_corebanking_customer_batch_search" model="ir.ui.view">
+        <field name="name">crm.corebanking.customer.batch.search</field>
+        <field name="model">crm.corebanking.customer.batch</field>
+        <field name="arch" type="xml">
+            <search string="Core Banking Sync Batches">
+                <field name="name"/>
+                <field name="source_ref"/>
+                <filter name="draft" string="Nháp" domain="[('state', '=', 'draft')]"/>
+                <filter name="partial" string="Có lỗi/cần kiểm tra" domain="[('state', '=', 'partial')]"/>
+                <filter name="daily" string="Daily" domain="[('sync_type', '=', 'daily')]"/>
+                <filter name="init" string="Init" domain="[('sync_type', '=', 'init')]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_corebanking_customer_batch" model="ir.actions.act_window">
+        <field name="name">Core Banking Sync</field>
+        <field name="res_model">crm.corebanking.customer.batch</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_corebanking_customer_batch_search"/>
+    </record>
+
+    <record id="view_corebanking_customer_staging_list" model="ir.ui.view">
+        <field name="name">crm.corebanking.customer.staging.list</field>
+        <field name="model">crm.corebanking.customer.staging</field>
+        <field name="arch" type="xml">
+            <list string="Core Banking Customer Staging"
+                  decoration-danger="state == 'error'"
+                  decoration-warning="state == 'manual_review'"
+                  decoration-success="state == 'done'">
+                <header>
+                    <button name="action_process" type="object" string="Xử lý lại"/>
+                </header>
+                <field name="batch_id"/>
+                <field name="record_type"/>
+                <field name="cif"/>
+                <field name="customer_name"/>
+                <field name="customer_type"/>
+                <field name="segment_code"/>
+                <field name="segment_name"/>
+                <field name="customer_status"/>
+                <field name="identity_number"/>
+                <field name="source_ref"/>
+                <field name="product_code"/>
+                <field name="product_name"/>
+                <field name="partner_id"/>
+                <field name="state" widget="badge"/>
+                <field name="action_taken"/>
+                <field name="processed_at"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_corebanking_customer_staging_form" model="ir.ui.view">
+        <field name="name">crm.corebanking.customer.staging.form</field>
+        <field name="model">crm.corebanking.customer.staging</field>
+        <field name="arch" type="xml">
+            <form string="Core Banking Customer Staging">
+                <header>
+                    <button name="action_process" type="object" string="Xử lý"
+                            class="btn-primary" invisible="state == 'done'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="batch_id"/>
+                            <field name="record_type"/>
+                            <field name="cif"/>
+                            <field name="customer_name"/>
+                            <field name="customer_type"/>
+                            <field name="identity_number"/>
+                        </group>
+                        <group>
+                            <field name="segment_code"/>
+                            <field name="segment_name"/>
+                            <field name="customer_status"/>
+                            <field name="corebanking_updated_at"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Profile chung" name="common_profile" invisible="record_type != 'customer_profile'">
+                            <group>
+                                <group>
+                                    <field name="currency_id"/>
+                                    <field name="total_deposit_balance"/>
+                                    <field name="total_loan_balance"/>
+                                    <field name="total_aum"/>
+                                    <field name="total_limit"/>
+                                    <field name="collateral_value"/>
+                                    <field name="casa_balance"/>
+                                </group>
+                                <group>
+                                    <field name="toi_mtd"/>
+                                    <field name="toi_ytd"/>
+                                    <field name="toi_12m"/>
+                                    <field name="risk_score"/>
+                                    <field name="risk_grade"/>
+                                    <field name="kyc_status"/>
+                                    <field name="risk_level"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="branch_code"/>
+                                <field name="branch_name"/>
+                                <field name="rm_code"/>
+                                <field name="rm_name"/>
+                                <field name="preferred_channel"/>
+                                <field name="digital_adoption_level"/>
+                            </group>
+                            <field name="raw_summary_json"/>
+                        </page>
+                        <page string="Cá nhân" name="individual_profile"
+                              invisible="record_type != 'customer_profile' or customer_type != 'individual'">
+                            <group>
+                                <group>
+                                    <field name="marital_status"/>
+                                    <field name="dependent_count"/>
+                                    <field name="residential_area"/>
+                                    <field name="occupation"/>
+                                    <field name="employer_name"/>
+                                    <field name="job_title"/>
+                                </group>
+                                <group>
+                                    <field name="monthly_income"/>
+                                    <field name="income_source"/>
+                                    <field name="income_stability"/>
+                                    <field name="verified_income"/>
+                                    <field name="compliance_flags"/>
+                                </group>
+                            </group>
+                            <field name="non_financial_json"/>
+                        </page>
+                        <page string="Doanh nghiệp" name="business_profile"
+                              invisible="record_type != 'customer_profile' or customer_type != 'business'">
+                            <group>
+                                <group>
+                                    <field name="tax_code"/>
+                                    <field name="industry_code"/>
+                                    <field name="industry_name"/>
+                                    <field name="legal_form"/>
+                                    <field name="establishment_date"/>
+                                    <field name="employee_count"/>
+                                    <field name="business_area"/>
+                                </group>
+                                <group>
+                                    <field name="annual_revenue"/>
+                                    <field name="net_profit"/>
+                                    <field name="ebitda"/>
+                                    <field name="total_assets"/>
+                                    <field name="equity"/>
+                                    <field name="cash_flow"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="approved_limit"/>
+                                    <field name="used_limit"/>
+                                    <field name="debt_group"/>
+                                    <field name="dscr"/>
+                                    <field name="avg_casa_balance"/>
+                                </group>
+                                <group>
+                                    <field name="payment_volume"/>
+                                    <field name="payroll_volume"/>
+                                    <field name="lc_volume"/>
+                                    <field name="fx_volume"/>
+                                    <field name="trade_finance_volume"/>
+                                    <field name="toi_deposit"/>
+                                    <field name="toi_credit"/>
+                                    <field name="toi_fee"/>
+                                    <field name="toi_fx_trade"/>
+                                </group>
+                            </group>
+                            <field name="ecosystem_json"/>
+                            <field name="management_json"/>
+                        </page>
+                        <page string="Product Holding" name="product_holding" invisible="record_type != 'product_holding'">
+                            <group>
+                                <group>
+                                    <field name="source_system"/>
+                                    <field name="source_ref"/>
+                                    <field name="masked_account_number"/>
+                                    <field name="product_category"/>
+                                    <field name="product_code"/>
+                                    <field name="product_name"/>
+                                    <field name="holding_status"/>
+                                </group>
+                                <group>
+                                    <field name="currency_id"/>
+                                    <field name="current_balance"/>
+                                    <field name="outstanding_balance"/>
+                                    <field name="credit_limit"/>
+                                    <field name="toi_mtd"/>
+                                    <field name="toi_ytd"/>
+                                    <field name="toi_12m"/>
+                                    <field name="open_date"/>
+                                    <field name="maturity_date"/>
+                                </group>
+                            </group>
+                            <field name="raw_holding_json"/>
+                        </page>
+                    </notebook>
+                    <group string="Kết quả xử lý">
+                        <field name="partner_id" readonly="1"/>
+                        <field name="action_taken" readonly="1"/>
+                        <field name="processed_at" readonly="1"/>
+                        <field name="error_message" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_corebanking_customer_staging_search" model="ir.ui.view">
+        <field name="name">crm.corebanking.customer.staging.search</field>
+        <field name="model">crm.corebanking.customer.staging</field>
+        <field name="arch" type="xml">
+            <search string="Core Banking Customer Staging">
+                <field name="cif"/>
+                <field name="customer_name"/>
+                <field name="segment_code"/>
+                <field name="identity_number"/>
+                <field name="partner_id"/>
+                <filter name="draft" string="Chờ xử lý" domain="[('state', '=', 'draft')]"/>
+                <filter name="manual_review" string="Cần kiểm tra" domain="[('state', '=', 'manual_review')]"/>
+                <filter name="error" string="Lỗi" domain="[('state', '=', 'error')]"/>
+                <filter name="unmapped_segment" string="Segment chưa map" domain="[('action_taken', '=', 'unmapped_segment')]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_corebanking_customer_staging" model="ir.actions.act_window">
+        <field name="name">Core Banking Staging</field>
+        <field name="res_model">crm.corebanking.customer.staging</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_corebanking_customer_staging_search"/>
+    </record>
+
+</odoo>

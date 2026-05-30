@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Vay mua nhà -->
+    <record id="checklist_template_vay_mua_nha" model="crm.document.checklist.template">
+        <field name="product_type">vay_mua_nha</field>
+        <field name="remind_after_days">2</field>
+    </record>
+    <record id="checklist_item_vay_mua_nha_1" model="crm.document.checklist.template.item">
+        <field name="template_id" ref="checklist_template_vay_mua_nha"/>
+        <field name="sequence">10</field>
+        <field name="name">CCCD / CMND (người vay)</field>
+        <field name="required">True</field>
+        <field name="file_format_hint">Ảnh 2 mặt, rõ nét</field>
+    </record>
+    <record id="checklist_item_vay_mua_nha_2" model="crm.document.checklist.template.item">
+        <field name="template_id" ref="checklist_template_vay_mua_nha"/>
+        <field name="sequence">20</field>
+        <field name="name">CCCD / CMND (vợ/chồng)</field>
+        <field name="required">False</field>
+        <field name="file_format_hint">Ảnh 2 mặt, rõ nét</field>
+    </record>
+    <record id="checklist_item_vay_mua_nha_3" model="crm.document.checklist.template.item">
+        <field name="template_id" ref="checklist_template_vay_mua_nha"/>
+        <field name="sequence">30</field>
+        <field name="name">Đăng ký kết hôn / độc thân</field>
+        <field name="required">True</field>
+        <field name="file_format_hint">Bản sao công chứng</field>
+    </record>
+    <record id="checklist_item_vay_mua_nha_4" model="crm.document.checklist.template.item">
+        <field name="template_id" ref="checklist_template_vay_mua_nha"/>
+        <field name="sequence">40</field>
+        <field name="name">Sao kê lương 3 tháng gần nhất</field>
+        <field name="required">True</field>
+        <field name="file_format_hint">PDF từ ngân hàng hoặc xác nhận thu nhập</field>
+    </record>
+    <record id="checklist_item_vay_mua_nha_5" model="crm.document.checklist.template.item">
+        <field name="template_id" ref="checklist_template_vay_mua_nha"/>
+        <field name="sequence">50</field>
+        <field name="name">Hợp đồng lao động hoặc quyết định bổ nhiệm</field>
+        <field name="required">True</field>
+        <field name="file_format_hint">Bản sao có chữ ký công ty</field>
+    </record>
+    <record id="checklist_item_vay_mua_nha_6" model="crm.document.checklist.template.item">
+        <field name="template_id" ref="checklist_template_vay_mua_nha"/>
+        <field name="sequence">60</field>
+        <field name="name">Giấy tờ tài sản thế chấp (sổ đỏ / hợp đồng mua bán)</field>
+        <field name="required">True</field>
+        <field name="file_format_hint">Bản sao công chứng</field>
+    </record>
+    <record id="checklist_item_vay_mua_nha_7" model="crm.document.checklist.template.item">
+        <field name="template_id" ref="checklist_template_vay_mua_nha"/>
+        <field name="sequence">70</field>
+        <field name="name">Phương án trả nợ / mục đích sử dụng vốn</field>
+        <field name="required">False</field>
+        <field name="file_format_hint">Mô tả bằng văn bản</field>
+    </record>
+    <record id="checklist_item_vay_mua_nha_8" model="crm.document.checklist.template.item">
+        <field name="template_id" ref="checklist_template_vay_mua_nha"/>
+        <field name="sequence">80</field>
+        <field name="name">Đơn đề nghị vay vốn</field>
+        <field name="required">True</field>
+        <field name="file_format_hint">Form của ngân hàng, điền đầy đủ</field>
+    </record>
+
+    <!-- Thẻ tín dụng -->
+    <record id="checklist_template_the_tin_dung" model="crm.document.checklist.template">
+        <field name="product_type">the_tin_dung</field>
+        <field name="remind_after_days">3</field>
+    </record>
+    <record id="checklist_item_ttd_1" model="crm.document.checklist.template.item">
+        <field name="template_id" ref="checklist_template_the_tin_dung"/>
+        <field name="sequence">10</field>
+        <field name="name">CCCD / CMND</field>
+        <field name="required">True</field>
+        <field name="file_format_hint">Ảnh 2 mặt</field>
+    </record>
+    <record id="checklist_item_ttd_2" model="crm.document.checklist.template.item">
+        <field name="template_id" ref="checklist_template_the_tin_dung"/>
+        <field name="sequence">20</field>
+        <field name="name">Sao kê lương 3 tháng</field>
+        <field name="required">True</field>
+        <field name="file_format_hint">PDF hoặc ảnh rõ</field>
+    </record>
+    <record id="checklist_item_ttd_3" model="crm.document.checklist.template.item">
+        <field name="template_id" ref="checklist_template_the_tin_dung"/>
+        <field name="sequence">30</field>
+        <field name="name">Hợp đồng lao động</field>
+        <field name="required">True</field>
+        <field name="file_format_hint">Bản sao</field>
+    </record>
+    <record id="checklist_item_ttd_4" model="crm.document.checklist.template.item">
+        <field name="template_id" ref="checklist_template_the_tin_dung"/>
+        <field name="sequence">40</field>
+        <field name="name">Đơn đề nghị mở thẻ</field>
+        <field name="required">True</field>
+        <field name="file_format_hint">Form ngân hàng</field>
+    </record>
+
+    <!-- Vay kinh doanh -->
+    <record id="checklist_template_vay_kinh_doanh" model="crm.document.checklist.template">
+        <field name="product_type">vay_kinh_doanh</field>
+        <field name="remind_after_days">2</field>
+    </record>
+    <record id="checklist_item_vkd_1" model="crm.document.checklist.template.item">
+        <field name="template_id" ref="checklist_template_vay_kinh_doanh"/>
+        <field name="sequence">10</field>
+        <field name="name">CCCD / CMND chủ hộ kinh doanh / giám đốc</field>
+        <field name="required">True</field>
+    </record>
+    <record id="checklist_item_vkd_2" model="crm.document.checklist.template.item">
+        <field name="template_id" ref="checklist_template_vay_kinh_doanh"/>
+        <field name="sequence">20</field>
+        <field name="name">Giấy phép kinh doanh / GPĐKKD</field>
+        <field name="required">True</field>
+        <field name="file_format_hint">Bản sao công chứng</field>
+    </record>
+    <record id="checklist_item_vkd_3" model="crm.document.checklist.template.item">
+        <field name="template_id" ref="checklist_template_vay_kinh_doanh"/>
+        <field name="sequence">30</field>
+        <field name="name">Báo cáo tài chính 2 năm gần nhất</field>
+        <field name="required">True</field>
+    </record>
+    <record id="checklist_item_vkd_4" model="crm.document.checklist.template.item">
+        <field name="template_id" ref="checklist_template_vay_kinh_doanh"/>
+        <field name="sequence">40</field>
+        <field name="name">Sao kê tài khoản ngân hàng 6 tháng</field>
+        <field name="required">True</field>
+    </record>
+    <record id="checklist_item_vkd_5" model="crm.document.checklist.template.item">
+        <field name="template_id" ref="checklist_template_vay_kinh_doanh"/>
+        <field name="sequence">50</field>
+        <field name="name">Phương án kinh doanh / mục đích vay</field>
+        <field name="required">True</field>
+    </record>
+    <record id="checklist_item_vkd_6" model="crm.document.checklist.template.item">
+        <field name="template_id" ref="checklist_template_vay_kinh_doanh"/>
+        <field name="sequence">60</field>
+        <field name="name">Tài sản thế chấp (nếu có)</field>
+        <field name="required">False</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,538 @@
+<templates xml:space="preserve">
+
+    <!-- ── Live Call Screen ──────────────────────────────────────────────── -->
+    <t t-name="crm_ai_banking.LiveCallScreen">
+        <div class="o_live_call_container d-flex flex-column" style="min-width:420px; min-height:420px;">
+
+            <!-- STEP: Chọn kênh -->
+            <t t-if="state.step === 'channel_select'">
+                <div class="text-center p-4">
+                    <h5 class="mb-1">📞 <t t-esc="leadName or 'Cuộc gọi'"/></h5>
+                    <p class="text-muted small mb-3">
+                        Chế độ: <strong><t t-esc="modeLabel"/></strong>
+                        <t t-if="state.mode === 'record'">
+                            — ghi âm → transcript sau khi kết thúc
+                        </t>
+                        <t t-else="">
+                            — transcript realtime
+                        </t>
+                    </p>
+                    <p class="fw-semibold mb-2">Chọn cách gọi:</p>
+                    <div class="d-flex flex-column gap-2 align-items-center">
+                        <button class="btn btn-primary w-75" t-on-click="() => this.selectChannel('twilio')">
+                            📲 Gọi qua Twilio (tự động quay số)
+                            <small class="d-block fw-normal" style="opacity:0.85">Twilio gọi ra SĐT khách — ghi âm + transcript + AI hints</small>
+                        </button>
+                        <button class="btn btn-outline-primary w-75" t-on-click="() => this.selectChannel('phone_mic')">
+                            📞 Điện thoại thường + Mic máy tính
+                            <small class="d-block text-muted fw-normal">Để điện thoại gần mic, gọi như bình thường</small>
+                        </button>
+                        <button class="btn btn-outline-secondary w-75" t-on-click="() => this.selectChannel('webrtc')">
+                            💻 Softphone / WebRTC trên máy tính
+                            <small class="d-block text-muted fw-normal">Gọi qua Skype, Zoom, app softphone</small>
+                        </button>
+                        <button class="btn btn-outline-secondary w-75" t-on-click="() => this.selectChannel('mobile')">
+                            📱 Gọi trên điện thoại di động
+                            <small class="d-block text-muted fw-normal">Ghi âm qua mobile rồi upload</small>
+                        </button>
+                    </div>
+                </div>
+            </t>
+
+            <!-- STEP: Nhập số điện thoại Twilio -->
+            <t t-if="state.step === 'phone_input'">
+                <div class="p-4">
+                    <h6 class="mb-3">📲 Gọi qua Twilio — <t t-esc="leadName or 'Khách hàng'"/></h6>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Số điện thoại khách hàng</label>
+                        <input type="tel" class="form-control form-control-lg"
+                               t-att-value="state.toNumber"
+                               t-on-input="(e) => state.toNumber = e.target.value"
+                               placeholder="+84xxxxxxxxx hoặc 0xxxxxxxxx"/>
+                        <div class="form-text">Hệ thống tự chuẩn hoá sang E.164 (+84...)</div>
+                    </div>
+
+                    <!-- Lỗi Twilio -->
+                    <t t-if="state.twilioError">
+                        <div class="alert alert-danger py-2 small">
+                            <t t-esc="state.twilioError"/>
+                            <t t-if="state.twilioError.includes('21219')">
+                                <hr class="my-1"/>
+                                <strong>Cách sửa:</strong> Vào
+                                <a href="https://console.twilio.com/phone-numbers/verified" target="_blank">
+                                    Twilio Console → Verified Caller IDs
+                                </a>
+                                → Thêm và verify số <strong><t t-esc="state.toNumber"/></strong>.
+                                <br/>Hoặc nâng cấp Twilio lên tài khoản trả phí.
+                            </t>
+                        </div>
+                    </t>
+
+                    <!-- Đang gọi -->
+                    <t t-if="state.twilioStatus === 'calling'">
+                        <div class="text-center py-2">
+                            <div class="spinner-border text-success spinner-border-sm me-2"/>
+                            Đang kết nối Twilio...
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-success flex-grow-1" t-on-click="confirmTwilioCall">
+                                📞 Bắt đầu gọi
+                            </button>
+                            <button class="btn btn-outline-secondary" t-on-click="() => state.step = 'channel_select'">
+                                ← Quay lại
+                            </button>
+                        </div>
+                    </t>
+                    <div class="mt-3 alert alert-info py-2 small">
+                        <strong>💡 Sau khi bấm "Bắt đầu gọi":</strong><br/>
+                        Twilio sẽ quay số → màn hình ghi âm + transcript hiện ra<br/>
+                        Bật mic để ghi giọng nhân viên → AI hints hoạt động realtime
+                    </div>
+                </div>
+            </t>
+
+            <!-- STEP: Sẵn sàng ghi âm -->
+            <t t-if="state.step === 'ready'">
+                <div class="text-center p-4">
+                    <!-- Twilio connected banner -->
+                    <t t-if="state.twilioEnabled and state.twilioStatus === 'connected'">
+                        <div class="alert alert-success py-2 mb-3 text-start">
+                            🟢 <strong>Twilio đã kết nối</strong> — đang gọi tới
+                            <strong><t t-esc="state.toNumber"/></strong>
+                            <br/><small class="text-muted">Call SID: <t t-esc="state.callSid"/></small>
+                        </div>
+                    </t>
+
+                    <!-- Mode badge -->
+                    <div class="mb-3">
+                        <t t-if="state.mode === 'record'">
+                            <span class="badge bg-secondary">🎙️ Chế độ: Ghi âm</span>
+                            <div class="mt-2 small text-muted">
+                                Transcript xuất hiện <strong>sau khi kết thúc</strong> (cần Whisper API key)
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <span class="badge bg-success">⚡ Chế độ: Realtime STT</span>
+                            <div class="mt-2 small text-muted">
+                                Transcript hiện <strong>ngay trong lúc gọi</strong>
+                            </div>
+                        </t>
+                    </div>
+
+                    <t t-if="state.twilioEnabled">
+                        <p class="text-muted mb-4">
+                            Bấm <strong>Bật mic &amp; Transcript</strong> để bắt đầu ghi âm
+                            giọng nhân viên và hiện transcript realtime + AI hints.
+                        </p>
+                        <button class="btn btn-danger btn-lg px-4" t-on-click="startRecording">
+                            🎙️ Bật mic &amp; Transcript
+                        </button>
+                    </t>
+                    <t t-else="">
+                        <p class="text-muted mb-4">
+                            Bấm <strong>Bắt đầu ghi âm</strong> rồi thực hiện cuộc gọi điện thoại.
+                            <t t-if="state.callChannel === 'phone_mic'">
+                                <br/><small class="text-warning">⚠️ Để điện thoại sát mic máy tính để ghi được cả 2 giọng.</small>
+                            </t>
+                        </p>
+                        <button class="btn btn-danger btn-lg px-4" t-on-click="startRecording">
+                            🔴 Bắt đầu ghi âm
+                        </button>
+                    </t>
+                    <div class="mt-3 small text-muted">
+                        Ghi âm lưu trên trình duyệt, upload khi bấm Kết thúc
+                    </div>
+                </div>
+            </t>
+
+            <!-- STEP: Đang ghi âm -->
+            <t t-if="state.step === 'recording' or state.step === 'paused'">
+                <!-- Header -->
+                <div class="bg-dark text-white p-2 d-flex align-items-center justify-content-between">
+                    <span class="fw-bold small">
+                        📞 <t t-esc="leadName or 'Cuộc gọi'"/>
+                        <t t-if="state.twilioEnabled and state.toNumber">
+                            <span class="ms-1 text-success small">→ <t t-esc="state.toNumber"/></span>
+                        </t>
+                    </span>
+                    <div class="d-flex align-items-center gap-2">
+                        <!-- Twilio status badge -->
+                        <t t-if="state.twilioEnabled">
+                            <t t-if="state.twilioStatus === 'connected'">
+                                <span class="badge bg-success">🟢 Twilio kết nối</span>
+                            </t>
+                            <t t-elif="state.twilioStatus === 'calling'">
+                                <span class="badge bg-warning text-dark">⏳ Đang quay số...</span>
+                            </t>
+                            <t t-elif="state.twilioStatus === 'ended'">
+                                <span class="badge bg-secondary">📵 Đã cúp</span>
+                            </t>
+                        </t>
+                        <span t-attf-class="badge {{ state.step === 'recording' ? 'bg-danger' : 'bg-warning text-dark' }}">
+                            <t t-if="state.step === 'recording'">🔴 ĐANG GHI</t>
+                            <t t-else="">⏸ TẠM DỪNG</t>
+                        </span>
+                        <span class="fw-bold" style="font-family:monospace">⏱ <t t-esc="formattedTime"/></span>
+                    </div>
+                </div>
+
+                <!-- Transcript (realtime mode) hoặc placeholder (record mode) -->
+                <div class="o_live_call_transcript flex-grow-1 overflow-auto p-3 bg-light"
+                     style="min-height:180px; max-height:260px; font-size:0.88rem;">
+                    <t t-if="state.mode === 'realtime'">
+                        <t t-foreach="state.transcript.slice().sort((a,b) => a.sequence - b.sequence)"
+                           t-as="line" t-key="line.sequence">
+                            <div t-attf-class="mb-1 {{ line.is_final ? '' : 'opacity-50' }}">
+                                <span t-attf-class="badge me-1 {{ getSpeakerBadge(line.speaker) }}">
+                                    <t t-esc="getSpeakerLabel(line.speaker)"/>
+                                </span>
+                                <span t-attf-class="{{ !line.is_final ? 'fst-italic text-muted' : '' }}">
+                                    <t t-esc="line.text"/>
+                                    <t t-if="!line.is_final"> ▌</t>
+                                </span>
+                            </div>
+                        </t>
+                        <t t-if="!state.transcript.length">
+                            <div class="text-muted fst-italic text-center py-3">Đang chờ transcript realtime...</div>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <!-- Batch mode: hiện trạng thái ghi âm rõ ràng -->
+                        <div class="text-center py-3">
+                            <div class="mb-2 o_recording_pulse" style="font-size:2.5rem;">🎙️</div>
+                            <div class="fw-semibold">Đang ghi âm...</div>
+                            <div class="small text-muted mt-1 mb-3">
+                                Gọi điện thoại bình thường — để máy gần mic
+                            </div>
+                            <!-- Audio level bar giả lập -->
+                            <div class="d-flex justify-content-center gap-1 align-items-end" style="height:30px;">
+                                <t t-foreach="[1,2,3,4,5,6,7]" t-as="b" t-key="b">
+                                    <div class="o_audio_bar bg-danger rounded"
+                                         t-attf-style="width:6px; animation-delay: {{ b * 0.1 }}s"/>
+                                </t>
+                            </div>
+                            <div class="mt-3 alert alert-info py-2 text-start small mx-3">
+                                <strong>📋 Transcript</strong> sẽ xuất hiện sau khi bạn bấm
+                                <strong>Kết thúc</strong> (cần Whisper API key trong cấu hình AI).
+                                <br/>AI vẫn có thể tóm tắt dựa trên thông tin lead nếu không có transcript.
+                            </div>
+                        </div>
+                    </t>
+                </div>
+
+                <!-- AI Hints (chỉ realtime mode) -->
+                <t t-if="state.mode === 'realtime'">
+                    <div class="border-top p-2 bg-white" style="font-size:0.82rem;">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <span class="fw-bold text-muted">🤖 AI HINTS</span>
+                            <div class="form-check form-switch mb-0">
+                                <input class="form-check-input" type="checkbox"
+                                       t-att-checked="state.hintsEnabled"
+                                       t-on-change="toggleHints"/>
+                                <label class="form-check-label">Bật</label>
+                            </div>
+                        </div>
+                        <t t-if="state.hints and state.hintsEnabled">
+                            <t t-if="state.hints.suggested_question">
+                                <div class="text-primary mt-1">
+                                    💬 "<t t-esc="state.hints.suggested_question"/>"
+                                </div>
+                            </t>
+                            <t t-if="state.hints.alert">
+                                <div class="text-danger mt-1">🚨 <t t-esc="state.hints.alert"/></div>
+                            </t>
+                        </t>
+                    </div>
+                </t>
+
+                <!-- Action buttons -->
+                <div class="d-flex gap-2 p-2 border-top">
+                    <t t-if="state.step === 'recording'">
+                        <button class="btn btn-sm btn-outline-secondary" t-on-click="pauseRecording">
+                            ⏸ Tạm dừng
+                        </button>
+                        <t t-if="state.twilioEnabled and state.twilioStatus === 'connected'">
+                            <button class="btn btn-sm btn-danger ms-auto" t-on-click="endTwilioCall">
+                                📵 Cúp máy &amp; Tóm tắt
+                            </button>
+                        </t>
+                        <t t-else="">
+                            <button class="btn btn-sm btn-danger ms-auto" t-on-click="endRecording">
+                                ⏹ Kết thúc &amp; Tóm tắt
+                            </button>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <button class="btn btn-sm btn-success" t-on-click="resumeRecording">
+                            ▶️ Tiếp tục ghi
+                        </button>
+                        <t t-if="state.twilioEnabled and state.twilioStatus === 'connected'">
+                            <button class="btn btn-sm btn-danger ms-auto" t-on-click="endTwilioCall">
+                                📵 Cúp máy &amp; Tóm tắt
+                            </button>
+                        </t>
+                        <t t-else="">
+                            <button class="btn btn-sm btn-danger ms-auto" t-on-click="endRecording">
+                                ⏹ Kết thúc &amp; Tóm tắt
+                            </button>
+                        </t>
+                    </t>
+                </div>
+            </t>
+
+            <!-- STEP: Đang xử lý / upload -->
+            <t t-if="state.step === 'processing'">
+                <div class="text-center p-4">
+                    <div class="spinner-border text-primary mb-3" role="status"/>
+                    <p class="text-muted"><t t-esc="state.status or 'Đang xử lý...'"/></p>
+                </div>
+            </t>
+
+            <!-- STEP: Hoàn thành -->
+            <t t-if="state.step === 'done'">
+                <div class="p-3">
+                    <div class="alert alert-success py-2">
+                        ✅ <t t-esc="state.status or 'AI đang tóm tắt cuộc gọi...'"/>
+                    </div>
+                    <t t-if="state.transcript.length">
+                        <p class="fw-semibold small mb-1">Transcript:</p>
+                        <div class="o_live_call_transcript overflow-auto p-2 bg-light rounded"
+                             style="max-height:200px; font-size:0.85rem;">
+                            <t t-foreach="state.transcript" t-as="line" t-key="line.sequence">
+                                <div class="mb-1">
+                                    <span t-attf-class="badge me-1 {{ getSpeakerBadge(line.speaker) }}">
+                                        <t t-esc="getSpeakerLabel(line.speaker)"/>
+                                    </span>
+                                    <t t-esc="line.text"/>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+                    <p class="text-muted small mt-2">
+                        Tóm tắt sẽ xuất hiện trong <strong>Chatter</strong> của opportunity sau vài phút.
+                    </p>
+                </div>
+            </t>
+
+        </div>
+    </t>
+
+    <!-- ── Twilio Call Dialog ───────────────────────────────────────────── -->
+    <t t-name="crm_ai_banking.TwilioCallDialog">
+        <div class="p-4" style="min-width:360px;">
+            <h5 class="mb-3">📞 Gọi — <t t-esc="leadName"/></h5>
+
+            <!-- Nhập số điện thoại -->
+            <t t-if="state.status === 'idle' or state.status === 'error'">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Số điện thoại</label>
+                    <input type="tel" class="form-control form-control-lg"
+                           t-att-value="state.toNumber"
+                           t-on-input="(e) => state.toNumber = e.target.value"
+                           placeholder="+84..."/>
+                    <div class="form-text">Định dạng quốc tế: +84xxxxxxxxx</div>
+                </div>
+                <t t-if="state.errorMsg">
+                    <div class="alert alert-danger py-2 small">
+                        <t t-esc="state.errorMsg"/>
+                        <t t-if="state.errorMsg.includes('21219')">
+                            <hr class="my-1"/>
+                            <strong>Cách sửa:</strong> Vào
+                            <a href="https://console.twilio.com/phone-numbers/verified" target="_blank">
+                                Twilio Console → Verified Caller IDs
+                            </a>
+                            → Thêm số <strong><t t-esc="state.toNumber"/></strong> → Verify bằng SMS.
+                            <br/>Hoặc nâng cấp Twilio lên tài khoản trả phí.
+                        </t>
+                    </div>
+                </t>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-success flex-grow-1" t-on-click="startCall">
+                        📞 Bắt đầu gọi
+                    </button>
+                    <button class="btn btn-outline-secondary" t-on-click="close">Huỷ</button>
+                </div>
+            </t>
+
+            <!-- Đang gọi -->
+            <t t-if="state.status === 'calling'">
+                <div class="text-center py-3">
+                    <div class="spinner-border text-success mb-2"/>
+                    <p>Đang kết nối tới <strong><t t-esc="state.toNumber"/></strong>...</p>
+                    <small class="text-muted">Twilio đang quay số</small>
+                </div>
+            </t>
+
+            <!-- Đang trong cuộc gọi -->
+            <t t-if="state.status === 'connected'">
+                <div class="text-center py-2">
+                    <div class="badge bg-success mb-2 fs-6">🟢 Đang gọi</div>
+                    <p class="fw-semibold"><t t-esc="state.toNumber"/></p>
+                    <p class="text-muted small mb-3">
+                        Cuộc gọi đang được Twilio kết nối.<br/>
+                        Ghi âm tự động — AI tóm tắt sau khi cúp máy.
+                    </p>
+                    <div class="alert alert-info py-2 small text-start">
+                        <strong>Call SID:</strong> <code><t t-esc="state.callSid"/></code>
+                    </div>
+                    <button class="btn btn-danger w-100 mt-2" t-on-click="endCall">
+                        ⏹ Kết thúc &amp; Đóng
+                    </button>
+                </div>
+            </t>
+
+            <!-- Kết thúc -->
+            <t t-if="state.status === 'ended'">
+                <div class="text-center py-3">
+                    <div class="text-success mb-2" style="font-size:2rem">✅</div>
+                    <p>Cuộc gọi kết thúc</p>
+                    <p class="text-muted small">AI đang tóm tắt trong nền...</p>
+                </div>
+            </t>
+        </div>
+    </t>
+
+    <!-- ── Camera Capture Widget ────────────────────────────────────────── -->
+    <t t-name="crm_ai_banking.CameraCaptureWidget">
+        <div class="o_camera_capture_widget">
+
+            <!-- Live camera stream (desktop webcam) -->
+            <t t-if="state.capturing">
+                <div class="o_camera_live border rounded overflow-hidden mb-2" style="position:relative;">
+                    <video t-ref="video" autoplay="1" playsinline="1"
+                           style="width:100%; max-height:280px; display:block; background:#000;"/>
+                    <canvas t-ref="canvas" style="display:none;"/>
+                    <div class="d-flex gap-2 p-2 justify-content-center bg-dark">
+                        <button class="btn btn-success btn-sm px-4" t-on-click="captureFromLive">
+                            📸 Chụp
+                        </button>
+                        <button class="btn btn-outline-light btn-sm" t-on-click="cancelLiveCamera">
+                            ✕ Huỷ
+                        </button>
+                    </div>
+                </div>
+            </t>
+
+            <!-- Preview ảnh đã chọn -->
+            <t t-elif="previewSrc">
+                <div class="o_camera_preview mb-2" style="position:relative; display:inline-block;">
+                    <img t-att-src="previewSrc"
+                         style="max-width:100%; max-height:260px; border-radius:6px; border:1px solid #dee2e6; display:block;"/>
+                    <button class="btn btn-sm btn-danger"
+                            style="position:absolute; top:4px; right:4px; padding:2px 7px; line-height:1.2;"
+                            t-on-click="clearImage">✕</button>
+                </div>
+            </t>
+
+            <!-- Upload zone (khi chưa có ảnh và không capturing) -->
+            <t t-else="">
+                <div class="o_camera_upload_zone border rounded p-4 text-center mb-2"
+                     style="border-style:dashed !important; background:#f8f9fa; cursor:pointer;"
+                     t-on-click="triggerFileUpload">
+                    <div style="font-size:2.5rem; line-height:1;">📷</div>
+                    <div class="fw-semibold mt-1">Chưa có ảnh</div>
+                    <div class="text-muted small">Click để chọn file hoặc dùng các nút bên dưới</div>
+                </div>
+            </t>
+
+            <!-- Error -->
+            <t t-if="state.error">
+                <div class="alert alert-danger py-2 small mb-2"><t t-esc="state.error"/></div>
+            </t>
+
+            <!-- Action buttons -->
+            <t t-if="!state.capturing">
+                <div class="d-flex gap-2 flex-wrap">
+                    <!-- Camera: dùng input capture cho mobile (camera sau), live stream cho desktop -->
+                    <button class="btn btn-primary btn-sm" t-on-click="triggerCameraCapture">
+                        📷 Chụp ảnh (camera)
+                    </button>
+                    <button class="btn btn-outline-secondary btn-sm" t-on-click="triggerFileUpload">
+                        📁 Upload file
+                    </button>
+                    <t t-if="previewSrc">
+                        <button class="btn btn-outline-danger btn-sm" t-on-click="clearImage">
+                            🗑 Xoá ảnh
+                        </button>
+                    </t>
+                </div>
+                <div class="text-muted" style="font-size:0.75rem; margin-top:4px;">
+                    JPG · PNG · WEBP — tối đa 10 MB
+                </div>
+            </t>
+
+            <!-- Hidden inputs -->
+            <!-- capture="environment" → camera sau trên mobile; fallback live stream trên desktop -->
+            <input t-ref="cameraInput" type="file" accept="image/*" capture="environment"
+                   style="display:none;" t-on-change="onCameraFileSelected"/>
+            <input t-ref="fileInput" type="file" accept="image/*"
+                   style="display:none;" t-on-change="onFileSelected"/>
+        </div>
+    </t>
+
+    <!-- ── AI Copilot inline button in chatter ───────────────────────────── -->
+    <t t-name="crm_ai_banking.AiCopilotButton">
+        <button class="btn btn-sm btn-outline-info o_ai_copilot_btn" t-on-click="props.onClick">
+            ✨ Gợi ý phản hồi
+        </button>
+    </t>
+
+    <!-- ── AI Copilot drafts dropdown ───────────────────────────────────── -->
+    <t t-name="crm_ai_banking.AiCopilotDrafts">
+        <div class="o_ai_drafts_panel border rounded p-2 bg-white shadow-sm">
+            <div class="fw-bold small mb-2">✨ Chọn phương án phản hồi:</div>
+            <t t-foreach="props.drafts" t-as="draft" t-key="draft_index">
+                <div class="o_ai_draft_item p-2 mb-1 border rounded cursor-pointer"
+                     t-on-click="() => props.onSelect(draft.text)">
+                    <small class="badge bg-secondary me-1"><t t-esc="draft.tone"/></small>
+                    <span class="small"><t t-esc="draft.text"/></span>
+                </div>
+            </t>
+            <button class="btn btn-sm btn-link text-muted" t-on-click="props.onClose">Đóng</button>
+        </div>
+    </t>
+
+    <!-- ── AI Copilot Panel (Phase 2) ────────────────────────────────────── -->
+    <t t-name="crm_ai_banking.AiCopilotPanel">
+        <div class="o_ai_copilot_panel border rounded p-3 bg-light shadow-sm mt-2">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="fw-bold small">✨ AI Gợi ý phản hồi</span>
+                <button class="btn btn-sm btn-link text-muted p-0" t-on-click="props.onClose">✕</button>
+            </div>
+
+            <t t-if="state.loading">
+                <div class="text-center py-2">
+                    <span class="spinner-border spinner-border-sm me-2"/>
+                    <span class="small text-muted">Đang tạo gợi ý...</span>
+                </div>
+            </t>
+            <t t-elif="state.error">
+                <div class="alert alert-warning py-2 small">
+                    <t t-esc="state.error"/>
+                </div>
+            </t>
+            <t t-elif="state.drafts.length">
+                <t t-foreach="state.drafts" t-as="draft" t-key="draft_index">
+                    <div class="o_ai_draft_item border rounded p-2 mb-2 bg-white">
+                        <div class="d-flex align-items-start justify-content-between">
+                            <div class="flex-grow-1">
+                                <small class="badge bg-info text-white me-1"><t t-esc="draft.tone or 'AI'"/></small>
+                                <span class="small"><t t-esc="draft.text"/></span>
+                            </div>
+                            <button class="btn btn-sm btn-outline-primary ms-2 flex-shrink-0"
+                                    t-on-click="() => selectDraft(draft.text)">
+                                Dùng
+                            </button>
+                        </div>
+                    </div>
+                </t>
+            </t>
+            <t t-else="">
+                <div class="text-muted small text-center py-2">Không có gợi ý</div>
+            </t>
+        </div>
+    </t>
+
+</templates>

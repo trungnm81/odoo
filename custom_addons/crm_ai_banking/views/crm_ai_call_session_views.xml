@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="crm_ai_call_session_form_view" model="ir.ui.view">
+        <field name="name">crm.ai.call.session.form</field>
+        <field name="model">crm.ai.call.session</field>
+        <field name="arch" type="xml">
+            <form string="Phiên gọi AI">
+                <header>
+                    <button name="action_end_session" type="object" string="Kết thúc"
+                            class="btn-danger"
+                            invisible="status not in ('active', 'paused')"/>
+                    <button name="action_run_ai_summary" type="object"
+                            string="🤖 Chạy lại AI tóm tắt"
+                            class="btn-secondary"
+                            invisible="status not in ('ended', 'summarized')"/>
+                    <field name="status" widget="statusbar"
+                           statusbar_visible="active,paused,ended,summarized"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="display_name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="lead_id"/>
+                            <field name="session_type"/>
+                            <field name="call_channel"/>
+                            <field name="user_id"/>
+                        </group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="duration" widget="float_time"/>
+                            <field name="sentiment"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Tóm tắt AI" name="summary">
+                            <field name="summary" readonly="1"/>
+                            <separator string="Action Items"/>
+                            <field name="action_items_display" readonly="1" widget="html"/>
+                        </page>
+                        <page string="Transcript" name="transcript">
+                            <field name="transcript_ids" readonly="1">
+                                <list>
+                                    <field name="sequence"/>
+                                    <field name="speaker"/>
+                                    <field name="text"/>
+                                    <field name="timestamp"/>
+                                    <field name="is_final"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="🏆 AI Sales Coach" name="coaching">
+                            <button name="action_create_coaching_report" type="object"
+                                    string="+ Tạo báo cáo Sales Coach" class="btn btn-primary mb-3"/>
+                            <field name="coaching_report_ids" nolabel="1">
+                                <list>
+                                    <field name="report_date"/>
+                                    <field name="user_id"/>
+                                    <field name="score_overall" string="Điểm tổng"/>
+                                    <field name="processing_status" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="crm_ai_call_session_list_view" model="ir.ui.view">
+        <field name="name">crm.ai.call.session.list</field>
+        <field name="model">crm.ai.call.session</field>
+        <field name="arch" type="xml">
+            <list string="Phiên gọi AI" decoration-info="status == 'active'" decoration-muted="status == 'ended'">
+                <field name="date_start"/>
+                <field name="lead_id"/>
+                <field name="session_type"/>
+                <field name="call_channel"/>
+                <field name="user_id"/>
+                <field name="duration" widget="float_time"/>
+                <field name="sentiment"/>
+                <field name="status"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_crm_ai_call_session" model="ir.actions.act_window">
+        <field name="name">Lịch sử cuộc gọi AI</field>
+        <field name="res_model">crm.ai.call.session</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

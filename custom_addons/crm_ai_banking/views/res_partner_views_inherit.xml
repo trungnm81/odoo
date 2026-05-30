@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_partner_form_inherit_ai_banking" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.ai.banking</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='lang']" position="after">
+                <field name="date_of_birth" invisible="is_company"/>
+                <field name="gender" invisible="is_company"/>
+                <field name="zalo_user_id"/>
+            </xpath>
+            <xpath expr="//field[@name='category_id']/ancestor::group[1]" position="after">
+                <group string="Thông tin Core Banking" name="corebanking_info">
+                    <field name="bank_cif" readonly="1"/>
+                    <field name="customer_type"/>
+                    <field name="customer_segment_id"
+                           domain="[('customer_type', '=', customer_type)]"
+                           readonly="1"/>
+                    <field name="corebanking_segment_code" readonly="1"/>
+                    <field name="corebanking_customer_status" readonly="1"/>
+                    <field name="corebanking_last_sync_date" readonly="1"/>
+                    <field name="corebanking_sync_status" readonly="1"/>
+                </group>
+            </xpath>
+            <!-- CCCD (chỉ hiện cho nhóm system) -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Banking 360" name="banking_360">
+                    <group string="KPI chung">
+                        <field name="banking_profile_ids" nolabel="1" readonly="1">
+                            <list>
+                                <field name="total_deposit_balance"/>
+                                <field name="total_loan_balance"/>
+                                <field name="total_aum"/>
+                                <field name="casa_balance"/>
+                                <field name="toi_mtd"/>
+                                <field name="toi_ytd"/>
+                                <field name="toi_12m"/>
+                                <field name="risk_grade"/>
+                                <field name="risk_level"/>
+                                <field name="corebanking_updated_at"/>
+                            </list>
+                            <form>
+                                <group>
+                                    <group>
+                                        <field name="total_deposit_balance"/>
+                                        <field name="total_loan_balance"/>
+                                        <field name="total_aum"/>
+                                        <field name="total_limit"/>
+                                        <field name="collateral_value"/>
+                                        <field name="casa_balance"/>
+                                    </group>
+                                    <group>
+                                        <field name="toi_mtd"/>
+                                        <field name="toi_ytd"/>
+                                        <field name="toi_12m"/>
+                                        <field name="risk_score"/>
+                                        <field name="risk_grade"/>
+                                        <field name="kyc_status"/>
+                                        <field name="risk_level"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <field name="branch_name"/>
+                                    <field name="rm_name"/>
+                                    <field name="preferred_channel"/>
+                                    <field name="digital_adoption_level"/>
+                                    <field name="corebanking_updated_at"/>
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+                    <group string="Thông tin cá nhân" invisible="customer_type != 'individual'">
+                        <field name="banking_individual_profile_ids" nolabel="1" readonly="1">
+                            <list>
+                                <field name="occupation"/>
+                                <field name="employer_name"/>
+                                <field name="job_title"/>
+                                <field name="monthly_income"/>
+                                <field name="verified_income"/>
+                                <field name="income_stability"/>
+                                <field name="compliance_flags"/>
+                            </list>
+                        </field>
+                    </group>
+                    <group string="Thông tin doanh nghiệp" invisible="customer_type != 'business'">
+                        <field name="banking_business_profile_ids" nolabel="1" readonly="1">
+                            <list>
+                                <field name="industry_name"/>
+                                <field name="legal_form"/>
+                                <field name="employee_count"/>
+                                <field name="annual_revenue"/>
+                                <field name="net_profit"/>
+                                <field name="approved_limit"/>
+                                <field name="used_limit"/>
+                                <field name="debt_group"/>
+                                <field name="toi_credit"/>
+                                <field name="toi_fee"/>
+                            </list>
+                        </field>
+                    </group>
+                    <group string="Sản phẩm đang sử dụng">
+                        <field name="banking_product_holding_ids" nolabel="1" readonly="1">
+                            <list decoration-muted="status != 'active'">
+                                <field name="product_category"/>
+                                <field name="product_code"/>
+                                <field name="product_name"/>
+                                <field name="masked_account_number"/>
+                                <field name="current_balance"/>
+                                <field name="outstanding_balance"/>
+                                <field name="credit_limit"/>
+                                <field name="toi_ytd"/>
+                                <field name="status" widget="badge"/>
+                                <field name="corebanking_updated_at"/>
+                            </list>
+                        </field>
+                    </group>
+                </page>
+                <page string="CCCD / Tài liệu" name="cccd_info"
+                      groups="base.group_system" invisible="is_company">
+                    <group>
+                        <field name="cccd_number" password="True"/>
+                        <field name="cccd_issue_date"/>
+                        <field name="cccd_issue_place"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

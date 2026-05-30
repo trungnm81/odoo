@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_bank_mobile" model="ir.ui.view">
+        <field name="name">res.config.settings.bank.mobile</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='general_settings']" position="inside">
+                <block title="📱 Hiển thị trên Mobile" name="bank_mobile_display"
+                       help="Chọn những gì ẨN trên màn hình điện thoại (&lt;768px). Desktop vẫn hiện đầy đủ.">
+
+                    <setting string="Tabs ẩn trên mobile"
+                             help="Người dùng có thể bấm ⋯ ở cuối tab bar để xem lại tạm thời.">
+                        <div class="content-group">
+                            <div class="row mt8">
+                                <label class="col-4 o_light_label" for="mobile_hide_account_map">Account Map B2B</label>
+                                <field name="mobile_hide_account_map" class="col-1"/>
+                            </div>
+                            <div class="row mt4">
+                                <label class="col-4 o_light_label" for="mobile_hide_ai_documents">Tài liệu AI</label>
+                                <field name="mobile_hide_ai_documents" class="col-1"/>
+                            </div>
+                            <div class="row mt4">
+                                <label class="col-4 o_light_label" for="mobile_hide_product_recs">Sản phẩm phù hợp</label>
+                                <field name="mobile_hide_product_recs" class="col-1"/>
+                            </div>
+                        </div>
+                    </setting>
+
+                    <setting string="Nút header ẩn trên mobile"
+                             help="🎤 Gọi AI và 📱 Gửi Zalo luôn hiển thị, không cấu hình được.">
+                        <div class="content-group">
+                            <div class="row mt8">
+                                <label class="col-4 o_light_label" for="mobile_hide_btn_scan_card">📇 Quét Card</label>
+                                <field name="mobile_hide_btn_scan_card" class="col-1"/>
+                            </div>
+                            <div class="row mt4">
+                                <label class="col-4 o_light_label" for="mobile_hide_btn_scan_gpkd">🏢 Quét GPKD</label>
+                                <field name="mobile_hide_btn_scan_gpkd" class="col-1"/>
+                            </div>
+                            <div class="row mt4">
+                                <label class="col-4 o_light_label" for="mobile_hide_btn_proposal">📄 Sinh đề xuất</label>
+                                <field name="mobile_hide_btn_proposal" class="col-1"/>
+                            </div>
+                            <div class="row mt4">
+                                <label class="col-4 o_light_label" for="mobile_hide_btn_zalo_remind">📋 Nhắc hồ sơ Zalo</label>
+                                <field name="mobile_hide_btn_zalo_remind" class="col-1"/>
+                            </div>
+                        </div>
+                    </setting>
+
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

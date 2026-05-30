@@ -1,0 +1,61 @@
+/* Live Call Screen */
+.o_live_call_container {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+    min-width: 400px;
+}
+
+.o_live_call_header {
+    font-size: 0.9rem;
+}
+
+.o_live_call_transcript {
+    background: #f8f9fa;
+    font-family: 'Courier New', monospace;
+    line-height: 1.6;
+}
+
+.o_live_call_transcript .badge {
+    font-size: 0.7rem;
+    min-width: 28px;
+    text-align: center;
+}
+
+.o_ai_hints_panel {
+    font-size: 0.85rem;
+    min-height: 60px;
+}
+
+.o_ai_drafts_panel {
+    max-width: 480px;
+    z-index: 1000;
+}
+
+.o_ai_draft_item:hover {
+    background-color: #f0f7ff;
+    cursor: pointer;
+}
+
+/* Checklist progress */
+.o_checklist_progress {
+    height: 8px;
+    border-radius: 4px;
+}
+
+/* Recording animation */
+@keyframes audioPulse {
+    0%, 100% { height: 6px; }
+    50%       { height: 26px; }
+}
+.o_audio_bar {
+    animation: audioPulse 0.8s ease-in-out infinite;
+    min-height: 6px;
+}
+@keyframes recordPulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.4; }
+}
+.o_recording_pulse {
+    animation: recordPulse 1s ease-in-out infinite;
+}

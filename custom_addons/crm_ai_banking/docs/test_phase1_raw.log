@@ -1,0 +1,131 @@
+2026-05-29 16:59:51,262 91673 INFO ? odoo: Odoo version 19.0 
+2026-05-29 16:59:51,263 91673 INFO ? odoo: Using configuration file at /Users/trung/projects/odoo/odoo.conf 
+2026-05-29 16:59:51,263 91673 INFO ? odoo: addons paths: _NamespacePath(['/Users/trung/projects/odoo/odoo/addons', '/Users/trung/Library/Application Support/Odoo/addons/19.0', '/Users/trung/projects/odoo/addons', '/Users/trung/projects/odoo/custom_addons']) 
+2026-05-29 16:59:51,263 91673 INFO ? odoo: database: odoo@localhost:5433 
+2026-05-29 16:59:51,264 91673 INFO ? odoo.sql_db: Connection to the database failed 
+2026-05-29 17:33:16,422 491 INFO ? odoo: Odoo version 19.0 
+2026-05-29 17:33:16,423 491 INFO ? odoo: Using configuration file at /Users/trung/projects/odoo/odoo.conf 
+2026-05-29 17:33:16,423 491 INFO ? odoo: addons paths: _NamespacePath(['/Users/trung/projects/odoo/odoo/addons', '/Users/trung/Library/Application Support/Odoo/addons/19.0', '/Users/trung/projects/odoo/addons', '/Users/trung/projects/odoo/custom_addons']) 
+2026-05-29 17:33:16,423 491 INFO ? odoo: database: odoo@localhost:5433 
+2026-05-29 17:34:07,339 807 INFO ? odoo: Odoo version 19.0 
+2026-05-29 17:34:07,339 807 INFO ? odoo: Using configuration file at /Users/trung/projects/odoo/odoo.conf 
+2026-05-29 17:34:07,339 807 INFO ? odoo: addons paths: _NamespacePath(['/Users/trung/projects/odoo/odoo/addons', '/Users/trung/Library/Application Support/Odoo/addons/19.0', '/Users/trung/projects/odoo/addons', '/Users/trung/projects/odoo/custom_addons']) 
+2026-05-29 17:34:07,339 807 INFO ? odoo: database: odoo@localhost:5433 
+2026-05-29 17:34:07,558 807 INFO ? odoo.service.server: HTTP service (werkzeug) running on 192.168.102.8:8069 
+2026-05-29 17:34:07,676 807 INFO odoo_dev odoo.tests.common: Importing test framework 
+2026-05-29 17:34:07,726 807 INFO odoo_dev odoo.modules.loading: loading 1 modules... 
+2026-05-29 17:34:07,730 807 INFO odoo_dev odoo.modules.loading: 1 modules loaded in 0.00s, 0 queries (+0 extra) 
+2026-05-29 17:34:07,771 807 INFO odoo_dev odoo.modules.loading: updating modules list 
+2026-05-29 17:34:07,796 807 INFO odoo_dev odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a 
+2026-05-29 17:34:08,525 807 INFO odoo_dev odoo.addons.base.models.ir_module: ALLOW access to module.button_upgrade on ['CRM AI Banking'] to user __system__ #1 via n/a 
+2026-05-29 17:34:08,525 807 INFO odoo_dev odoo.addons.base.models.ir_module: ALLOW access to module.update_list on ['CRM AI Banking'] to user __system__ #1 via n/a 
+2026-05-29 17:34:08,946 807 INFO odoo_dev odoo.addons.base.models.ir_module: ALLOW access to module.button_install on [] to user __system__ #1 via n/a 
+2026-05-29 17:34:08,960 807 INFO odoo_dev odoo.modules.loading: loading 81 modules... 
+2026-05-29 17:34:09,283 807 INFO odoo_dev odoo.modules.loading: Loading module crm_ai_banking (66/81) 
+2026-05-29 17:34:09,379 807 INFO odoo_dev odoo.registry: module crm_ai_banking: creating or updating database tables 
+2026-05-29 17:34:09,640 807 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/security/ir.model.access.csv 
+2026-05-29 17:34:09,818 807 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/data/mail_activity_type_data.xml 
+2026-05-29 17:34:09,819 807 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/data/ir_cron_data.xml 
+2026-05-29 17:34:09,849 807 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/data/product_checklist_data.xml 
+2026-05-29 17:34:09,858 807 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/data/product_eligibility_data.xml 
+2026-05-29 17:34:09,861 807 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/crm_ai_config_views.xml 
+2026-05-29 17:34:09,871 807 WARNING odoo_dev odoo.addons.base.models.ir_ui_view: An alert (class alert-*) must have an alert, alertdialog or status role or an alert-link class. Please use alert and alertdialog only for what expects to stop any activity to be read immediately.
+View error context:
+{'file': '/Users/trung/projects/odoo/custom_addons/crm_ai_banking/views/crm_ai_config_views.xml',
+ 'line': 94,
+ 'name': 'crm.ai.config.form',
+ 'view': ir.ui.view(2851,),
+ 'view.model': 'crm.ai.config',
+ 'view.parent': ir.ui.view(),
+ 'xmlid': 'crm_ai_config_form_view'} 
+2026-05-29 17:34:09,877 807 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/crm_ai_call_session_views.xml 
+2026-05-29 17:34:09,887 807 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/crm_account_contact_views.xml 
+2026-05-29 17:34:09,895 807 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/crm_ai_document_views.xml 
+2026-05-29 17:34:09,903 807 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/crm_product_recommendation_views.xml 
+2026-05-29 17:34:09,914 807 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/crm_ai_coaching_report_views.xml 
+2026-05-29 17:34:09,921 807 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/crm_lead_views_inherit.xml 
+2026-05-29 17:34:09,929 807 WARNING odoo_dev odoo.addons.base.models.ir_ui_view: An alert (class alert-*) must have an alert, alertdialog or status role or an alert-link class. Please use alert and alertdialog only for what expects to stop any activity to be read immediately.
+View error context:
+{'file': '/Users/trung/projects/odoo/custom_addons/crm_ai_banking/views/crm_lead_views_inherit.xml',
+ 'line': 27,
+ 'name': 'crm.lead.form.inherit.ai',
+ 'view': ir.ui.view(2855,),
+ 'view.model': 'crm.lead',
+ 'view.parent': ir.ui.view(1361,),
+ 'xmlid': 'crm_lead_form_inherit_ai'} 
+2026-05-29 17:34:09,937 807 WARNING odoo_dev odoo.addons.base.models.ir_ui_view: An alert (class alert-*) must have an alert, alertdialog or status role or an alert-link class. Please use alert and alertdialog only for what expects to stop any activity to be read immediately.
+View error context:
+{'file': '/Users/trung/projects/odoo/custom_addons/crm_ai_banking/views/crm_lead_views_inherit.xml',
+ 'line': 26,
+ 'name': 'crm.lead.form.inherit.ai',
+ 'view': ir.ui.view(2855,),
+ 'view.model': 'crm.lead',
+ 'view.parent': ir.ui.view(1361,),
+ 'xmlid': 'crm_lead_form_inherit_ai'} 
+2026-05-29 17:34:09,945 807 WARNING odoo_dev odoo.addons.base.models.ir_ui_view: An alert (class alert-*) must have an alert, alertdialog or status role or an alert-link class. Please use alert and alertdialog only for what expects to stop any activity to be read immediately.
+View error context:
+{'file': '/Users/trung/projects/odoo/custom_addons/crm_ai_banking/views/crm_lead_views_inherit.xml',
+ 'line': 26,
+ 'name': 'crm.lead.form.inherit.checklist',
+ 'view': ir.ui.view(2856,),
+ 'view.model': 'crm.lead',
+ 'view.parent': ir.ui.view(1361,),
+ 'xmlid': 'crm_lead_form_inherit_checklist'} 
+2026-05-29 17:34:09,951 807 WARNING odoo_dev odoo.addons.base.models.ir_ui_view: An alert (class alert-*) must have an alert, alertdialog or status role or an alert-link class. Please use alert and alertdialog only for what expects to stop any activity to be read immediately.
+View error context:
+{'file': '/Users/trung/projects/odoo/custom_addons/crm_ai_banking/views/crm_lead_views_inherit.xml',
+ 'line': 26,
+ 'name': 'crm.lead.form.inherit.checklist',
+ 'view': ir.ui.view(2856,),
+ 'view.model': 'crm.lead',
+ 'view.parent': ir.ui.view(1361,),
+ 'xmlid': 'crm_lead_form_inherit_checklist'} 
+2026-05-29 17:34:09,954 807 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/crm_document_checklist_views.xml 
+2026-05-29 17:34:09,966 807 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/wizard_scan_document_views.xml 
+2026-05-29 17:34:09,972 807 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/wizard_zalo_compose_views.xml 
+2026-05-29 17:34:09,977 807 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/wizard_generate_proposal_views.xml 
+2026-05-29 17:34:09,983 807 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/res_partner_views_inherit.xml 
+2026-05-29 17:34:09,999 807 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/menu.xml 
+2026-05-29 17:34:10,020 807 INFO odoo_dev odoo.addons.base.models.ir_module: module crm_ai_banking: no translation for language vi_VN 
+2026-05-29 17:34:10,047 807 INFO odoo_dev odoo.modules.loading: Module crm_ai_banking loaded in 0.76s, 1107 queries (+1107 other) 
+2026-05-29 17:34:10,066 807 INFO odoo_dev odoo.modules.loading: 81 modules loaded in 1.11s, 1107 queries (+1107 extra) 
+2026-05-29 17:34:10,268 807 INFO odoo_dev odoo.registry: verifying fields for every extended model 
+2026-05-29 17:34:10,632 807 INFO odoo_dev odoo.modules.loading: Modules loaded. 
+2026-05-29 17:34:10,640 807 INFO odoo_dev odoo.registry: Registry changed, signaling through the database 
+2026-05-29 17:34:10,641 807 INFO odoo_dev odoo.registry: Registry loaded in 3.083s 
+2026-05-29 17:34:10,641 807 INFO odoo_dev odoo.service.server: Starting post tests 
+2026-05-29 17:34:10,778 807 INFO odoo_dev odoo.addons.auth_signup.models.res_users: Signup email sent for user <phase1_call_sales> to <phase1_call_sales@example.com> 
+2026-05-29 17:34:10,859 807 INFO odoo_dev odoo.addons.auth_signup.models.res_users: Signup email sent for user <phase1_manager> to <phase1_manager@example.com> 
+2026-05-29 17:34:10,873 807 INFO odoo_dev odoo.addons.crm_ai_banking.tests.test_phase1_call_cron: Starting TestPhase1CallCron.test_call_summary_posts_chatter_updates_tags_and_next_activity ... 
+2026-05-29 17:34:10,962 807 INFO odoo_dev odoo.addons.crm_ai_banking.tests.test_phase1_call_cron: Starting TestPhase1CallCron.test_cold_lead_cron_posts_reengagement_activity ... 
+2026-05-29 17:34:11,042 807 INFO odoo_dev odoo.addons.crm_ai_banking.tests.test_phase1_call_cron: Starting TestPhase1CallCron.test_large_deal_cron_schedules_manager_activity ... 
+2026-05-29 17:34:11,126 807 INFO odoo_dev odoo.addons.crm_ai_banking.tests.test_phase1_call_cron: Starting TestPhase1CallCron.test_transcript_line_upsert_partial_then_final ... 
+2026-05-29 17:34:11,225 807 INFO odoo_dev odoo.addons.base.models.ir_attachment: filestore gc 3 checked, 2 removed 
+2026-05-29 17:34:11,308 807 INFO odoo_dev odoo.addons.auth_signup.models.res_users: Signup email sent for user <phase1_sales_user> to <phase1_sales_user@example.com> 
+2026-05-29 17:34:11,310 807 INFO odoo_dev odoo.addons.crm_ai_banking.tests.test_phase1_email_checklist: Starting TestPhase1EmailChecklist.test_email_ai_posts_note_schedules_activity_tags_and_checklist ... 
+2026-05-29 17:34:11,399 807 INFO odoo_dev odoo.addons.crm_ai_banking.tests.test_phase1_email_checklist: Starting TestPhase1EmailChecklist.test_message_new_schedules_email_ai_processing ... 
+2026-05-29 17:34:11,418 807 INFO odoo_dev odoo.addons.mail.tools.mail_validation: The (optional) `flanker` Python module is not installed,so email validation will fallback to email_normalize. 
+2026-05-29 17:34:11,422 807 INFO odoo_dev odoo.addons.crm_ai_banking.tests.test_phase1_email_checklist: Starting TestPhase1EmailChecklist.test_selecting_product_type_creates_checklist_once ... 
+2026-05-29 17:34:11,498 807 INFO odoo_dev odoo.addons.base.models.ir_attachment: filestore gc 1 checked, 1 removed 
+2026-05-29 17:34:11,505 807 INFO odoo_dev odoo.addons.crm_ai_banking.tests.test_phase1_service: Starting TestPhase1Service.test_anonymize_masks_sensitive_numbers ... 
+2026-05-29 17:34:11,506 807 INFO odoo_dev odoo.addons.crm_ai_banking.tests.test_phase1_service: ====================================================================== 
+2026-05-29 17:34:11,506 807 ERROR odoo_dev odoo.addons.crm_ai_banking.tests.test_phase1_service: FAIL: TestPhase1Service.test_anonymize_masks_sensitive_numbers
+Traceback (most recent call last):
+  File "/Users/trung/projects/odoo/custom_addons/crm_ai_banking/tests/test_phase1_service.py", line 43, in test_anonymize_masks_sensitive_numbers
+    self.assertIn("[TAX_ID]", masked)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: '[TAX_ID]' not found in 'CCCD [ID_NUMBER], MST [ID_NUMBER], account [ACCOUNT_NO]'
+ 
+2026-05-29 17:34:11,506 807 INFO odoo_dev odoo.addons.crm_ai_banking.tests.test_phase1_service: Starting TestPhase1Service.test_safe_format_keeps_prompt_stable_with_braces ... 
+2026-05-29 17:34:11,507 807 INFO odoo_dev odoo.addons.crm_ai_banking.tests.test_phase1_service: Starting TestPhase1Service.test_summarize_email_routes_to_llm_and_parses_json ... 
+2026-05-29 17:34:11,508 807 INFO odoo_dev odoo.addons.crm_ai_banking.tests.test_phase1_service: Starting TestPhase1Service.test_twilio_phone_normalization_for_vietnam_numbers ... 
+2026-05-29 17:34:11,512 807 INFO odoo_dev odoo.addons.base.models.ir_attachment: filestore gc 0 checked, 0 removed 
+2026-05-29 17:34:11,515 807 INFO odoo_dev odoo.service.server: 11 post-tests in 0.87s, 1224 queries 
+2026-05-29 17:34:11,515 807 INFO odoo_dev odoo.tests.stats: crm_ai_banking: 17 tests 0.87s 1224 queries 
+2026-05-29 17:34:11,515 807 ERROR odoo_dev odoo.tests.result: 1 failed, 0 error(s) of 11 tests when loading database 'odoo_dev' 
+2026-05-29 17:34:11,515 807 INFO odoo_dev odoo.service.server: Initiating shutdown 
+2026-05-29 17:34:11,515 807 INFO odoo_dev odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-05-29 17:34:11,526 807 INFO odoo_dev odoo.addons.base.models.ir_http: Generating routing map for key None 
+2026-05-29 17:34:11,539 807 INFO odoo_dev werkzeug: 127.0.0.1 - - [29/May/2026 17:34:11] "GET /websocket?version=19.0-2 HTTP/1.1" 101 - 6 0.005 0.933
+2026-05-29 17:34:11,624 807 INFO odoo_dev odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections  
+2026-05-29 17:34:11,624 807 INFO odoo_dev odoo.sql_db: ConnectionPool(read-only;used=0/count=0/max=64): Closed 1 connections  

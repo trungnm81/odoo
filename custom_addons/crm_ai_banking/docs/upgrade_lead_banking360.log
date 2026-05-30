@@ -1,0 +1,196 @@
+2026-05-30 02:55:06,102 47981 INFO ? odoo: Odoo version 19.0 
+2026-05-30 02:55:06,102 47981 INFO ? odoo: Using configuration file at /Users/trung/projects/odoo/odoo.conf 
+2026-05-30 02:55:06,102 47981 INFO ? odoo: addons paths: _NamespacePath(['/Users/trung/projects/odoo/odoo/addons', '/Users/trung/Library/Application Support/Odoo/addons/19.0', '/Users/trung/projects/odoo/addons', '/Users/trung/projects/odoo/custom_addons']) 
+2026-05-30 02:55:06,102 47981 INFO ? odoo: database: odoo@localhost:5433 
+2026-05-30 02:55:06,103 47981 INFO ? odoo.sql_db: Connection to the database failed 
+2026-05-30 02:57:34,977 48701 INFO ? odoo: Odoo version 19.0 
+2026-05-30 02:57:34,978 48701 INFO ? odoo: Using configuration file at /Users/trung/projects/odoo/odoo.conf 
+2026-05-30 02:57:34,978 48701 INFO ? odoo: addons paths: _NamespacePath(['/Users/trung/projects/odoo/odoo/addons', '/Users/trung/Library/Application Support/Odoo/addons/19.0', '/Users/trung/projects/odoo/addons', '/Users/trung/projects/odoo/custom_addons']) 
+2026-05-30 02:57:34,978 48701 INFO ? odoo: database: odoo@localhost:5433 
+2026-05-30 02:57:35,269 48701 INFO odoo_dev odoo.modules.loading: loading 1 modules... 
+2026-05-30 02:57:35,271 48701 INFO odoo_dev odoo.modules.loading: 1 modules loaded in 0.00s, 0 queries (+0 extra) 
+2026-05-30 02:57:35,283 48701 INFO odoo_dev odoo.modules.loading: updating modules list 
+2026-05-30 02:57:35,285 48701 INFO odoo_dev odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a 
+2026-05-30 02:57:35,988 48701 INFO odoo_dev odoo.addons.base.models.ir_module: ALLOW access to module.button_upgrade on ['CRM AI Banking'] to user __system__ #1 via n/a 
+2026-05-30 02:57:35,988 48701 INFO odoo_dev odoo.addons.base.models.ir_module: ALLOW access to module.update_list on ['CRM AI Banking'] to user __system__ #1 via n/a 
+2026-05-30 02:57:36,400 48701 INFO odoo_dev odoo.addons.base.models.ir_module: ALLOW access to module.button_install on [] to user __system__ #1 via n/a 
+2026-05-30 02:57:36,422 48701 INFO odoo_dev odoo.modules.loading: loading 92 modules... 
+2026-05-30 02:57:36,804 48701 INFO odoo_dev odoo.modules.loading: Loading module crm_ai_banking (67/92) 
+2026-05-30 02:57:36,917 48701 INFO odoo_dev odoo.registry: module crm_ai_banking: creating or updating database tables 
+2026-05-30 02:57:37,212 48701 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/security/security_groups.xml 
+2026-05-30 02:57:37,234 48701 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/security/ir.model.access.csv 
+2026-05-30 02:57:37,872 48701 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/data/mail_activity_type_data.xml 
+2026-05-30 02:57:37,873 48701 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/data/ir_cron_data.xml 
+2026-05-30 02:57:37,911 48701 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/data/product_checklist_data.xml 
+2026-05-30 02:57:37,919 48701 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/data/product_eligibility_data.xml 
+2026-05-30 02:57:37,923 48701 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/data/customer_segment_data.xml 
+2026-05-30 02:57:37,926 48701 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/crm_ai_config_views.xml 
+2026-05-30 02:57:37,934 48701 WARNING odoo_dev odoo.addons.base.models.ir_ui_view: An alert (class alert-*) must have an alert, alertdialog or status role or an alert-link class. Please use alert and alertdialog only for what expects to stop any activity to be read immediately.
+View error context:
+{'file': '/Users/trung/projects/odoo/custom_addons/crm_ai_banking/views/crm_ai_config_views.xml',
+ 'line': 94,
+ 'name': 'crm.ai.config.form',
+ 'view': ir.ui.view(2851,),
+ 'view.model': 'crm.ai.config',
+ 'view.parent': ir.ui.view(),
+ 'xmlid': 'crm_ai_config_form_view'} 
+2026-05-30 02:57:37,941 48701 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/crm_ai_call_session_views.xml 
+2026-05-30 02:57:37,953 48701 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/crm_customer_segment_views.xml 
+2026-05-30 02:57:37,966 48701 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/crm_account_contact_views.xml 
+2026-05-30 02:57:37,974 48701 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/crm_ai_document_views.xml 
+2026-05-30 02:57:37,983 48701 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/crm_product_recommendation_views.xml 
+2026-05-30 02:57:37,997 48701 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/crm_ai_coaching_report_views.xml 
+2026-05-30 02:57:38,005 48701 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/banking_profile_views.xml 
+2026-05-30 02:57:38,023 48701 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/corebanking_sync_views.xml 
+2026-05-30 02:57:38,048 48701 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/crm_lead_views_inherit.xml 
+2026-05-30 02:57:38,058 48701 WARNING odoo_dev odoo.addons.base.models.ir_ui_view: An alert (class alert-*) must have an alert, alertdialog or status role or an alert-link class. Please use alert and alertdialog only for what expects to stop any activity to be read immediately.
+View error context:
+{'file': '/Users/trung/projects/odoo/custom_addons/crm_ai_banking/views/crm_lead_views_inherit.xml',
+ 'line': 28,
+ 'name': 'crm.lead.form.inherit.ai',
+ 'view': ir.ui.view(2855,),
+ 'view.model': 'crm.lead',
+ 'view.parent': ir.ui.view(1361,),
+ 'xmlid': 'crm_lead_form_inherit_ai'} 
+2026-05-30 02:57:38,068 48701 WARNING odoo_dev odoo.addons.base.models.ir_ui_view: An alert (class alert-*) must have an alert, alertdialog or status role or an alert-link class. Please use alert and alertdialog only for what expects to stop any activity to be read immediately.
+View error context:
+{'file': '/Users/trung/projects/odoo/custom_addons/crm_ai_banking/views/crm_lead_views_inherit.xml',
+ 'line': 27,
+ 'name': 'crm.lead.form.inherit.ai',
+ 'view': ir.ui.view(2855,),
+ 'view.model': 'crm.lead',
+ 'view.parent': ir.ui.view(1361,),
+ 'xmlid': 'crm_lead_form_inherit_ai'} 
+2026-05-30 02:57:38,107 48701 WARNING odoo_dev odoo.addons.base.models.ir_ui_view: An alert (class alert-*) must have an alert, alertdialog or status role or an alert-link class. Please use alert and alertdialog only for what expects to stop any activity to be read immediately.
+View error context:
+{'file': '/Users/trung/projects/odoo/custom_addons/crm_ai_banking/views/crm_lead_views_inherit.xml',
+ 'line': 27,
+ 'name': 'crm.lead.form.inherit.checklist',
+ 'view': ir.ui.view(2856,),
+ 'view.model': 'crm.lead',
+ 'view.parent': ir.ui.view(1361,),
+ 'xmlid': 'crm_lead_form_inherit_checklist'} 
+2026-05-30 02:57:38,116 48701 WARNING odoo_dev odoo.addons.base.models.ir_ui_view: An alert (class alert-*) must have an alert, alertdialog or status role or an alert-link class. Please use alert and alertdialog only for what expects to stop any activity to be read immediately.
+View error context:
+{'file': '/Users/trung/projects/odoo/custom_addons/crm_ai_banking/views/crm_lead_views_inherit.xml',
+ 'line': 27,
+ 'name': 'crm.lead.form.inherit.checklist',
+ 'view': ir.ui.view(2856,),
+ 'view.model': 'crm.lead',
+ 'view.parent': ir.ui.view(1361,),
+ 'xmlid': 'crm_lead_form_inherit_checklist'} 
+2026-05-30 02:57:38,120 48701 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/crm_document_checklist_views.xml 
+2026-05-30 02:57:38,135 48701 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/wizard_scan_document_views.xml 
+2026-05-30 02:57:38,144 48701 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/wizard_zalo_compose_views.xml 
+2026-05-30 02:57:38,149 48701 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/wizard_generate_proposal_views.xml 
+2026-05-30 02:57:38,154 48701 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/res_partner_views_inherit.xml 
+2026-05-30 02:57:38,175 48701 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/menu.xml 
+2026-05-30 02:57:38,209 48701 INFO odoo_dev odoo.addons.base.models.ir_module: module crm_ai_banking: no translation for language zh_TW 
+2026-05-30 02:57:38,213 48701 INFO odoo_dev odoo.addons.base.models.ir_module: module crm_ai_banking: no translation for language ja_JP 
+2026-05-30 02:57:38,215 48701 INFO odoo_dev odoo.addons.base.models.ir_module: module crm_ai_banking: no translation for language ko_KP 
+2026-05-30 02:57:38,217 48701 INFO odoo_dev odoo.addons.base.models.ir_module: module crm_ai_banking: no translation for language vi_VN 
+2026-05-30 02:57:38,245 48701 INFO odoo_dev odoo.modules.loading: Module crm_ai_banking loaded in 1.44s, 1556 queries (+1556 other) 
+2026-05-30 02:57:38,281 48701 INFO odoo_dev odoo.modules.loading: 92 modules loaded in 1.86s, 1556 queries (+1556 extra) 
+2026-05-30 02:57:38,503 48701 INFO odoo_dev odoo.registry: verifying fields for every extended model 
+2026-05-30 02:57:38,864 48701 INFO odoo_dev odoo.modules.loading: Modules loaded. 
+2026-05-30 02:57:38,873 48701 INFO odoo_dev odoo.registry: Registry changed, signaling through the database 
+2026-05-30 02:57:38,874 48701 INFO odoo_dev odoo.registry: Registry loaded in 3.658s 
+2026-05-30 02:57:38,875 48701 INFO odoo_dev odoo.service.server: Initiating shutdown 
+2026-05-30 02:57:38,875 48701 INFO odoo_dev odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-05-30 02:57:38,875 48701 INFO odoo_dev odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections  
+2026-05-30 03:53:36,811 65122 INFO ? odoo: Odoo version 19.0 
+2026-05-30 03:53:36,812 65122 INFO ? odoo: Using configuration file at /Users/trung/projects/odoo/odoo.conf 
+2026-05-30 03:53:36,812 65122 INFO ? odoo: addons paths: _NamespacePath(['/Users/trung/projects/odoo/odoo/addons', '/Users/trung/Library/Application Support/Odoo/addons/19.0', '/Users/trung/projects/odoo/addons', '/Users/trung/projects/odoo/custom_addons']) 
+2026-05-30 03:53:36,812 65122 INFO ? odoo: database: odoo@localhost:5433 
+2026-05-30 03:53:36,995 65122 INFO odoo_dev odoo.modules.loading: loading 1 modules... 
+2026-05-30 03:53:36,997 65122 INFO odoo_dev odoo.modules.loading: 1 modules loaded in 0.00s, 0 queries (+0 extra) 
+2026-05-30 03:53:37,011 65122 INFO odoo_dev odoo.modules.loading: updating modules list 
+2026-05-30 03:53:37,013 65122 INFO odoo_dev odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a 
+2026-05-30 03:53:37,605 65122 INFO odoo_dev odoo.addons.base.models.ir_module: ALLOW access to module.button_upgrade on ['CRM AI Banking'] to user __system__ #1 via n/a 
+2026-05-30 03:53:37,605 65122 INFO odoo_dev odoo.addons.base.models.ir_module: ALLOW access to module.update_list on ['CRM AI Banking'] to user __system__ #1 via n/a 
+2026-05-30 03:53:38,003 65122 INFO odoo_dev odoo.addons.base.models.ir_module: ALLOW access to module.button_install on [] to user __system__ #1 via n/a 
+2026-05-30 03:53:38,020 65122 INFO odoo_dev odoo.modules.loading: loading 92 modules... 
+2026-05-30 03:53:38,352 65122 INFO odoo_dev odoo.modules.loading: Loading module crm_ai_banking (67/92) 
+2026-05-30 03:53:38,467 65122 INFO odoo_dev odoo.registry: module crm_ai_banking: creating or updating database tables 
+2026-05-30 03:53:38,755 65122 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/security/security_groups.xml 
+2026-05-30 03:53:38,782 65122 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/security/ir.model.access.csv 
+2026-05-30 03:53:39,410 65122 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/data/mail_activity_type_data.xml 
+2026-05-30 03:53:39,412 65122 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/data/ir_cron_data.xml 
+2026-05-30 03:53:39,441 65122 WARNING odoo_dev odoo.modules.loading: Transient module states were reset 
+2026-05-30 03:53:39,441 65122 ERROR odoo_dev odoo.registry: Failed to load registry 
+2026-05-30 03:53:39,441 65122 CRITICAL odoo_dev odoo.service.server: Failed to initialize database `odoo_dev`. 
+Traceback (most recent call last):
+  File "/Users/trung/projects/odoo/odoo/tools/convert.py", line 605, in _tag_root
+    f(rec)
+    ~^^^^^
+  File "/Users/trung/projects/odoo/odoo/tools/convert.py", line 460, in _tag_record
+    record = model._load_records([data], self.mode == 'update')
+  File "/Users/trung/projects/odoo/odoo/orm/models.py", line 5171, in _load_records
+    data['record']._load_records_write(data['values'])
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/Users/trung/projects/odoo/odoo/orm/models.py", line 5092, in _load_records_write
+    self.write(values)
+    ~~~~~~~~~~^^^^^^^^
+  File "/Users/trung/projects/odoo/odoo/addons/base/models/ir_cron.py", line 701, in write
+    raise UserError(self.env._(
+    ...<3 lines>...
+    )) from None
+odoo.exceptions.UserError: Record cannot be modified right now: This cron task is currently being executed and may not be modified Please try again in a few minutes
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/trung/projects/odoo/odoo/service/server.py", line 1544, in preload_registries
+    registry = Registry.new(dbname, update_module=update_module, install_modules=config['init'], upgrade_modules=config['update'], reinit_modules=config['reinit'])
+  File "/Users/trung/projects/odoo/odoo/tools/func.py", line 88, in locked
+    return func(inst, *args, **kwargs)
+  File "/Users/trung/projects/odoo/odoo/orm/registry.py", line 199, in new
+    load_modules(
+    ~~~~~~~~~~~~^
+        registry,
+        ^^^^^^^^^
+    ...<5 lines>...
+        models_to_check=models_to_check,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/trung/projects/odoo/odoo/modules/loading.py", line 464, in load_modules
+    load_module_graph(
+    ~~~~~~~~~~~~~~~~~^
+        env, graph, update_module=update_module,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        report=report, models_to_check=models_to_check)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/trung/projects/odoo/odoo/modules/loading.py", line 224, in load_module_graph
+    load_data(env, idref, mode, kind='data', package=package)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/trung/projects/odoo/odoo/modules/loading.py", line 59, in load_data
+    convert_file(env, package.name, filename, idref, mode, noupdate=kind == 'demo')
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/trung/projects/odoo/odoo/tools/convert.py", line 693, in convert_file
+    convert_xml_import(env, module, fp, idref, mode, noupdate)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/trung/projects/odoo/odoo/tools/convert.py", line 792, in convert_xml_import
+    obj.parse(doc.getroot())
+    ~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/Users/trung/projects/odoo/odoo/tools/convert.py", line 663, in parse
+    self._tag_root(de)
+    ~~~~~~~~~~~~~~^^^^
+  File "/Users/trung/projects/odoo/odoo/tools/convert.py", line 618, in _tag_root
+    raise ParseError('while parsing %s:%s, somewhere inside\n%s' % (
+    ...<3 lines>...
+    )) from e
+odoo.tools.convert.ParseError: while parsing /Users/trung/projects/odoo/custom_addons/crm_ai_banking/data/ir_cron_data.xml:42, somewhere inside
+<record id="ir_cron_crm_ai_nba_refresh" model="ir.cron">
+        <field name="name">CRM AI: Refresh NBA (Next Best Action)</field>
+        <field name="model_id" search="[('model','=','crm.lead')]"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_refresh_nba()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="nextcall">2026-05-30 03:00:00</field>
+        <field name="active">True</field>
+    </record>
+2026-05-30 03:53:39,446 65122 INFO odoo_dev odoo.service.server: Initiating shutdown 
+2026-05-30 03:53:39,446 65122 INFO odoo_dev odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-05-30 03:53:39,446 65122 INFO odoo_dev odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections  

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_crm_ai_scan_document_form" model="ir.ui.view">
+        <field name="name">crm.ai.scan.document.form</field>
+        <field name="model">crm.ai.scan.document</field>
+        <field name="arch" type="xml">
+            <form string="Quét tài liệu AI">
+                <field name="state" invisible="1"/>
+
+                <!-- ── STEP 1: Chọn loại + Upload ảnh ── -->
+                <div invisible="state != 'scan'">
+                    <group string="Bước 1: Chọn loại tài liệu">
+                        <field name="scan_type" widget="radio" options="{'horizontal': True}"/>
+                        <field name="lead_id"/>
+                    </group>
+
+                    <group string="Bước 2: Chụp ảnh hoặc Upload">
+                        <field name="image_filename" invisible="1"/>
+                        <field name="image_data" widget="camera_capture" nolabel="1"/>
+                    </group>
+                </div>
+
+                <!-- ── STEP 2: Kết quả OCR + chỉnh sửa ── -->
+                <div invisible="state == 'scan'">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <group string="Ảnh đã quét">
+                                <field name="image_data" widget="image"
+                                       options="{'size': [280, 200]}"
+                                       nolabel="1" readonly="1"/>
+                            </group>
+                        </div>
+                        <div class="col-md-7">
+                            <group string="Kết quả OCR">
+                                <field name="result_display" widget="html" nolabel="1"/>
+                            </group>
+                        </div>
+                    </div>
+
+                    <group string="Thông tin trích xuất — chỉnh sửa nếu cần">
+                        <group>
+                            <field name="extracted_full_name"/>
+                            <field name="extracted_phone"/>
+                            <field name="extracted_email"/>
+                            <field name="extracted_company"
+                                   invisible="scan_type in ('cccd_front', 'cccd_back')"/>
+                            <field name="extracted_title"
+                                   invisible="scan_type in ('cccd_front', 'cccd_back')"/>
+                            <field name="extracted_address"/>
+                            <field name="extracted_website"
+                                   invisible="scan_type in ('cccd_front', 'cccd_back')"/>
+                        </group>
+                        <group invisible="scan_type not in ('cccd_front', 'cccd_back')">
+                            <field name="extracted_cccd_number"/>
+                            <field name="extracted_date_of_birth"/>
+                            <field name="extracted_gender"/>
+                            <field name="extracted_cccd_issue_date"/>
+                            <field name="extracted_cccd_issue_place"/>
+                            <field name="partner_id" string="Cập nhật vào Partner"/>
+                        </group>
+                    </group>
+                </div>
+
+                <footer>
+                    <button name="action_scan" type="object"
+                            string="🔍 Quét OCR"
+                            class="btn-primary"
+                            invisible="state != 'scan'"/>
+                    <button name="action_apply_to_lead" type="object"
+                            string="✅ Áp dụng vào Lead / Partner"
+                            class="btn-success"
+                            invisible="state != 'review'"/>
+                    <button name="action_rescan" type="object"
+                            string="↩ Quét lại"
+                            class="btn-secondary"
+                            invisible="state != 'review'"/>
+                    <button special="cancel" string="Đóng" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_crm_ai_scan_name_card" model="ir.actions.act_window">
+        <field name="name">Quét Name Card</field>
+        <field name="res_model">crm.ai.scan.document</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_scan_type': 'name_card'}</field>
+    </record>
+
+    <record id="action_crm_ai_scan_cccd" model="ir.actions.act_window">
+        <field name="name">Quét CCCD</field>
+        <field name="res_model">crm.ai.scan.document</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_scan_type': 'cccd_front'}</field>
+    </record>
+
+</odoo>

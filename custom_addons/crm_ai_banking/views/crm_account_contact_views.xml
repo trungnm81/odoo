@@ -1,0 +1,53 @@
+<odoo>
+    <!-- Inline list view for account contacts on lead form -->
+    <record id="view_crm_account_contact_list" model="ir.ui.view">
+        <field name="name">crm.account.contact.list</field>
+        <field name="model">crm.account.contact</field>
+        <field name="arch" type="xml">
+            <list string="Account Map B2B" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="role"/>
+                <field name="title"/>
+                <field name="department"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="influence_level"/>
+                <field name="relationship_strength" widget="priority"/>
+                <field name="last_contact_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_crm_account_contact_form" model="ir.ui.view">
+        <field name="name">crm.account.contact.form</field>
+        <field name="model">crm.account.contact</field>
+        <field name="arch" type="xml">
+            <form string="Stakeholder / Contact">
+                <group>
+                    <group>
+                        <field name="name"/>
+                        <field name="title"/>
+                        <field name="department"/>
+                        <field name="role"/>
+                        <field name="influence_level"/>
+                    </group>
+                    <group>
+                        <field name="phone"/>
+                        <field name="email"/>
+                        <field name="relationship_strength" widget="priority"/>
+                        <field name="last_contact_date"/>
+                        <field name="partner_id"/>
+                    </group>
+                </group>
+                <field name="notes" placeholder="Ghi chú về mối quan hệ, sở thích, điểm quan tâm..."/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_crm_account_contact" model="ir.actions.act_window">
+        <field name="name">Account Map B2B</field>
+        <field name="res_model">crm.account.contact</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

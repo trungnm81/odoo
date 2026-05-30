@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" width="200" height="60">
+  <!-- Nền -->
+  <rect width="200" height="60" fill="#0054A5" rx="4"/>
+  <!-- Icon ngân hàng (cột) -->
+  <rect x="12" y="18" width="4" height="24" fill="white"/>
+  <rect x="20" y="18" width="4" height="24" fill="white"/>
+  <rect x="28" y="18" width="4" height="24" fill="white"/>
+  <!-- Mái -->
+  <polygon points="8,18 36,18 22,8" fill="white"/>
+  <!-- Đế -->
+  <rect x="6" y="42" width="32" height="4" fill="white"/>
+  <!-- Tên ngân hàng (placeholder) -->
+  <text x="50" y="28" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white">NGÂN HÀNG</text>
+  <text x="50" y="46" font-family="Arial, sans-serif" font-size="11" fill="#a8c8f0">Commercial Bank</text>
+</svg>

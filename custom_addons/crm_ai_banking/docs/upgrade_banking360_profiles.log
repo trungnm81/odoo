@@ -1,0 +1,95 @@
+2026-05-30 02:41:43,943 44014 INFO ? odoo: Odoo version 19.0 
+2026-05-30 02:41:43,943 44014 INFO ? odoo: Using configuration file at /Users/trung/projects/odoo/odoo.conf 
+2026-05-30 02:41:43,943 44014 INFO ? odoo: addons paths: _NamespacePath(['/Users/trung/projects/odoo/odoo/addons', '/Users/trung/Library/Application Support/Odoo/addons/19.0', '/Users/trung/projects/odoo/addons', '/Users/trung/projects/odoo/custom_addons']) 
+2026-05-30 02:41:43,943 44014 INFO ? odoo: database: odoo@localhost:5433 
+2026-05-30 02:41:44,499 44014 INFO odoo_dev odoo.modules.loading: loading 1 modules... 
+2026-05-30 02:41:44,501 44014 INFO odoo_dev odoo.modules.loading: 1 modules loaded in 0.00s, 0 queries (+0 extra) 
+2026-05-30 02:41:44,514 44014 INFO odoo_dev odoo.modules.loading: updating modules list 
+2026-05-30 02:41:44,517 44014 INFO odoo_dev odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a 
+2026-05-30 02:41:45,204 44014 INFO odoo_dev odoo.addons.base.models.ir_module: ALLOW access to module.button_upgrade on ['CRM AI Banking'] to user __system__ #1 via n/a 
+2026-05-30 02:41:45,204 44014 INFO odoo_dev odoo.addons.base.models.ir_module: ALLOW access to module.update_list on ['CRM AI Banking'] to user __system__ #1 via n/a 
+2026-05-30 02:41:45,744 44014 INFO odoo_dev odoo.addons.base.models.ir_module: ALLOW access to module.button_install on [] to user __system__ #1 via n/a 
+2026-05-30 02:41:45,765 44014 INFO odoo_dev odoo.modules.loading: loading 92 modules... 
+2026-05-30 02:41:46,147 44014 INFO odoo_dev odoo.modules.loading: Loading module crm_ai_banking (67/92) 
+2026-05-30 02:41:46,265 44014 INFO odoo_dev odoo.registry: module crm_ai_banking: creating or updating database tables 
+2026-05-30 02:41:46,732 44014 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/security/security_groups.xml 
+2026-05-30 02:41:46,757 44014 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/security/ir.model.access.csv 
+2026-05-30 02:41:47,408 44014 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/data/mail_activity_type_data.xml 
+2026-05-30 02:41:47,410 44014 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/data/ir_cron_data.xml 
+2026-05-30 02:41:47,451 44014 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/data/product_checklist_data.xml 
+2026-05-30 02:41:47,460 44014 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/data/product_eligibility_data.xml 
+2026-05-30 02:41:47,464 44014 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/data/customer_segment_data.xml 
+2026-05-30 02:41:47,466 44014 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/crm_ai_config_views.xml 
+2026-05-30 02:41:47,475 44014 WARNING odoo_dev odoo.addons.base.models.ir_ui_view: An alert (class alert-*) must have an alert, alertdialog or status role or an alert-link class. Please use alert and alertdialog only for what expects to stop any activity to be read immediately.
+View error context:
+{'file': '/Users/trung/projects/odoo/custom_addons/crm_ai_banking/views/crm_ai_config_views.xml',
+ 'line': 94,
+ 'name': 'crm.ai.config.form',
+ 'view': ir.ui.view(2851,),
+ 'view.model': 'crm.ai.config',
+ 'view.parent': ir.ui.view(),
+ 'xmlid': 'crm_ai_config_form_view'} 
+2026-05-30 02:41:47,482 44014 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/crm_ai_call_session_views.xml 
+2026-05-30 02:41:47,493 44014 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/crm_customer_segment_views.xml 
+2026-05-30 02:41:47,506 44014 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/crm_account_contact_views.xml 
+2026-05-30 02:41:47,514 44014 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/crm_ai_document_views.xml 
+2026-05-30 02:41:47,523 44014 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/crm_product_recommendation_views.xml 
+2026-05-30 02:41:47,537 44014 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/crm_ai_coaching_report_views.xml 
+2026-05-30 02:41:47,545 44014 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/banking_profile_views.xml 
+2026-05-30 02:41:47,561 44014 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/corebanking_sync_views.xml 
+2026-05-30 02:41:47,592 44014 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/crm_lead_views_inherit.xml 
+2026-05-30 02:41:47,602 44014 WARNING odoo_dev odoo.addons.base.models.ir_ui_view: An alert (class alert-*) must have an alert, alertdialog or status role or an alert-link class. Please use alert and alertdialog only for what expects to stop any activity to be read immediately.
+View error context:
+{'file': '/Users/trung/projects/odoo/custom_addons/crm_ai_banking/views/crm_lead_views_inherit.xml',
+ 'line': 28,
+ 'name': 'crm.lead.form.inherit.ai',
+ 'view': ir.ui.view(2855,),
+ 'view.model': 'crm.lead',
+ 'view.parent': ir.ui.view(1361,),
+ 'xmlid': 'crm_lead_form_inherit_ai'} 
+2026-05-30 02:41:47,611 44014 WARNING odoo_dev odoo.addons.base.models.ir_ui_view: An alert (class alert-*) must have an alert, alertdialog or status role or an alert-link class. Please use alert and alertdialog only for what expects to stop any activity to be read immediately.
+View error context:
+{'file': '/Users/trung/projects/odoo/custom_addons/crm_ai_banking/views/crm_lead_views_inherit.xml',
+ 'line': 27,
+ 'name': 'crm.lead.form.inherit.ai',
+ 'view': ir.ui.view(2855,),
+ 'view.model': 'crm.lead',
+ 'view.parent': ir.ui.view(1361,),
+ 'xmlid': 'crm_lead_form_inherit_ai'} 
+2026-05-30 02:41:47,647 44014 WARNING odoo_dev odoo.addons.base.models.ir_ui_view: An alert (class alert-*) must have an alert, alertdialog or status role or an alert-link class. Please use alert and alertdialog only for what expects to stop any activity to be read immediately.
+View error context:
+{'file': '/Users/trung/projects/odoo/custom_addons/crm_ai_banking/views/crm_lead_views_inherit.xml',
+ 'line': 27,
+ 'name': 'crm.lead.form.inherit.checklist',
+ 'view': ir.ui.view(2856,),
+ 'view.model': 'crm.lead',
+ 'view.parent': ir.ui.view(1361,),
+ 'xmlid': 'crm_lead_form_inherit_checklist'} 
+2026-05-30 02:41:47,653 44014 WARNING odoo_dev odoo.addons.base.models.ir_ui_view: An alert (class alert-*) must have an alert, alertdialog or status role or an alert-link class. Please use alert and alertdialog only for what expects to stop any activity to be read immediately.
+View error context:
+{'file': '/Users/trung/projects/odoo/custom_addons/crm_ai_banking/views/crm_lead_views_inherit.xml',
+ 'line': 27,
+ 'name': 'crm.lead.form.inherit.checklist',
+ 'view': ir.ui.view(2856,),
+ 'view.model': 'crm.lead',
+ 'view.parent': ir.ui.view(1361,),
+ 'xmlid': 'crm_lead_form_inherit_checklist'} 
+2026-05-30 02:41:47,657 44014 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/crm_document_checklist_views.xml 
+2026-05-30 02:41:47,671 44014 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/wizard_scan_document_views.xml 
+2026-05-30 02:41:47,678 44014 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/wizard_zalo_compose_views.xml 
+2026-05-30 02:41:47,683 44014 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/wizard_generate_proposal_views.xml 
+2026-05-30 02:41:47,688 44014 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/res_partner_views_inherit.xml 
+2026-05-30 02:41:47,710 44014 INFO odoo_dev odoo.modules.loading: loading crm_ai_banking/views/menu.xml 
+2026-05-30 02:41:47,743 44014 INFO odoo_dev odoo.addons.base.models.ir_module: module crm_ai_banking: no translation for language zh_TW 
+2026-05-30 02:41:47,747 44014 INFO odoo_dev odoo.addons.base.models.ir_module: module crm_ai_banking: no translation for language ja_JP 
+2026-05-30 02:41:47,749 44014 INFO odoo_dev odoo.addons.base.models.ir_module: module crm_ai_banking: no translation for language ko_KP 
+2026-05-30 02:41:47,751 44014 INFO odoo_dev odoo.addons.base.models.ir_module: module crm_ai_banking: no translation for language vi_VN 
+2026-05-30 02:41:47,779 44014 INFO odoo_dev odoo.modules.loading: Module crm_ai_banking loaded in 1.63s, 1767 queries (+1767 other) 
+2026-05-30 02:41:47,814 44014 INFO odoo_dev odoo.modules.loading: 92 modules loaded in 2.05s, 1767 queries (+1767 extra) 
+2026-05-30 02:41:48,055 44014 INFO odoo_dev odoo.registry: verifying fields for every extended model 
+2026-05-30 02:41:48,455 44014 INFO odoo_dev odoo.modules.loading: Modules loaded. 
+2026-05-30 02:41:48,466 44014 INFO odoo_dev odoo.registry: Registry changed, signaling through the database 
+2026-05-30 02:41:48,468 44014 INFO odoo_dev odoo.registry: Registry loaded in 4.009s 
+2026-05-30 02:41:48,468 44014 INFO odoo_dev odoo.service.server: Initiating shutdown 
+2026-05-30 02:41:48,468 44014 INFO odoo_dev odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-05-30 02:41:48,468 44014 INFO odoo_dev odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections  

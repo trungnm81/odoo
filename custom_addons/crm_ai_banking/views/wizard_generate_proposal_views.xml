@@ -1,0 +1,52 @@
+<odoo>
+    <record id="view_crm_ai_generate_proposal_form" model="ir.ui.view">
+        <field name="name">crm.ai.generate.proposal.form</field>
+        <field name="model">crm.ai.generate.proposal</field>
+        <field name="arch" type="xml">
+            <form string="Sinh đề xuất AI">
+                <sheet>
+                    <!-- INPUT STATE -->
+                    <div invisible="state != 'input'">
+                        <div class="o_form_label fw-bold mb-2">📄 Thông tin đề xuất</div>
+                        <group>
+                            <group string="Lead &amp; Template">
+                                <field name="lead_id" readonly="1"/>
+                                <field name="product_type" readonly="1"/>
+                                <field name="template_key" required="1"/>
+                            </group>
+                            <group string="Thông tin khách hàng">
+                                <field name="partner_name"/>
+                                <field name="company_name"/>
+                                <field name="loan_amount"/>
+                                <field name="loan_term"/>
+                                <field name="purpose"/>
+                                <field name="property_address"/>
+                                <field name="credit_limit"/>
+                            </group>
+                        </group>
+                        <field name="custom_notes" string="Ghi chú thêm cho AI"
+                               placeholder="Nhập các điều kiện đặc biệt, yêu cầu cụ thể của khách... AI sẽ dùng để cải thiện nội dung đề xuất."/>
+                    </div>
+
+                    <!-- RESULT STATE -->
+                    <div invisible="state != 'result'">
+                        <div class="text-success fw-bold mb-2">
+                            ✅ Đề xuất đã được tạo. Kiểm tra nội dung bên dưới trước khi đính kèm vào Lead.
+                        </div>
+                        <field name="generated_content" string="Nội dung đề xuất"
+                               widget="text" style="font-family: monospace; min-height: 300px;"/>
+                    </div>
+
+                    <field name="state" invisible="1"/>
+                </sheet>
+                <footer>
+                    <button name="action_generate" string="✨ Sinh đề xuất" type="object"
+                            class="btn-primary" invisible="state != 'input'"/>
+                    <button name="action_attach_to_lead" string="📎 Đính kèm vào Lead" type="object"
+                            class="btn-success" invisible="state != 'result'"/>
+                    <button string="Đóng" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

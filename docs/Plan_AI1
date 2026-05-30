@@ -1,0 +1,308 @@
+# Plan: Odoo CRM tích hợp AI toàn diện (AI-Native CRM)
+
+## Context
+
+Odoo CRM hiện tại đã có pipeline quản lý cơ hội, scoring tự động (Naive Bayes PLS), email gateway, activity tracking, và discuss/chat tích hợp. Tuy nhiên nhân viên kinh doanh vẫn phải nhập liệu thủ công, ghi chú sau cuộc gọi, soạn email, cập nhật trạng thái, và đọc hiểu hội thoại để đưa ra bước tiếp theo. Mục tiêu là biến CRM thành hệ thống **zero-manual-entry** — mọi dữ liệu từ ảnh, chat, email, voice đều được AI tự động trích xuất, phân tích, và cập nhật vào pipeline.
+
+---
+
+## Kiến trúc tổng thể
+
+```
+Input channels                  AI Processing                 Odoo CRM
+─────────────                   ─────────────                 ────────
+📷 Ảnh (name card, contract) ─→ Vision LLM (Claude)     ─→  crm.lead fields
+💬 Chat (Zalo/Telegram/WA)    ─→ Chat parser + Intent    ─→  message_post + activities
+📧 Email (fetchmail)          ─→ Email summarizer + NER  ─→  note + stage_id
+🎤 Voice (ghi âm cuộc gọi)   ─→ STT + Meeting summary   ─→  log_meeting + next activity
+📄 Document (PDF contract)    ─→ Doc parser              ─→  lead_properties + attachments
+```
+
+---
+
+## Module: `crm_ai_assistant`
+
+Một Odoo addon duy nhất, phụ thuộc vào: `crm`, `mail`, `base_automation`, `discuss`
+
+### Cấu trúc thư mục
+
+```
+addons/crm_ai_assistant/
+├── __manifest__.py
+├── models/
+│   ├── crm_ai_config.py          # Cấu hình API key, model, prompts
+│   ├── crm_lead.py               # Override crm.lead: thêm AI methods
+│   ├── crm_ai_call_summary.py    # Model lưu transcript + summary cuộc gọi
+│   └── mail_thread.py            # Override message_new: auto-process attachments
+├── controllers/
+│   └── main.py                   # REST endpoints cho mobile app & webhook
+├── wizard/
+│   ├── crm_ai_scan_card.py       # Wizard quét name card
+│   └── crm_ai_process_voice.py   # Wizard upload ghi âm
+├── static/src/
+│   ├── js/
+│   │   ├── ai_assistant_panel.js  # OWL sidebar panel
+│   │   ├── ai_quick_actions.js    # Quick action buttons trên form
+│   │   └── voice_recorder.js     # In-browser voice recording
+│   └── xml/
+│       └── ai_templates.xml      # OWL templates
+└── data/
+    ├── mail_activity_type_data.xml  # Activity types: AI Follow-up Call, etc.
+    └── ir_cron_data.xml             # Cron: daily email digest, nightly summary
+```
+
+---
+
+## Tính năng chi tiết & Implementation
+
+### 1. Quét Name Card / Ảnh → Tạo Lead tự động
+
+**Luồng**: Nhân viên chụp ảnh name card từ mobile → upload → AI trích xuất → tạo/cập nhật lead
+
+**Implementation**:
+- `CrmAiScanCardWizard` wizard với field `image` (Binary)
+- Method `action_process_card()`:
+  1. Encode ảnh base64 → gọi Claude API với vision prompt
+  2. Parse JSON response: `{name, phone, email, company, title, website}`
+  3. Gọi `crm.lead.create()` hoặc `convert_opportunity()` với data trích xuất
+  4. Tự động gắn `tag_ids` = "Từ name card"
+- Endpoint REST: `POST /crm/ai/scan-card` nhận `image_base64` → trả về lead_id
+- OWL button trên kanban/form: "📷 Scan Card" → mở wizard
+
+**Key files**:
+- `wizard/crm_ai_scan_card.py`
+- `controllers/main.py` → `/crm/ai/scan-card`
+- Prompt: `addons/crm_ai_assistant/data/prompts/card_extraction.txt`
+
+---
+
+### 2. Tóm tắt Email tự động + Gợi ý bước tiếp theo
+
+**Luồng**: Email đến từ khách → AI đọc nội dung → tóm tắt → gợi ý activity → post lên chatter
+
+**Implementation**:
+- Override `message_new()` trong `crm.lead`:
+  ```python
+  def message_new(self, msg_dict, custom_values=None):
+      lead = super().message_new(msg_dict, custom_values)
+      lead._ai_process_incoming_email(msg_dict)
+      return lead
+  ```
+- `_ai_process_incoming_email(msg_dict)`:
+  1. Extract email body + subject
+  2. Gọi Claude API: tóm tắt ý chính (< 3 bullet points), identify intent (hỏi giá, phàn nàn, muốn demo, ready to buy), gợi ý action tiếp theo
+  3. `message_post(body=summary, subtype_xmlid='mail.mt_note')` → internal note
+  4. Nếu intent = "ready_to_buy" → tự động `activity_schedule('crm.mail_act_crm_opportunity_action_arpu', summary='Khách quan tâm - follow up ngay')`
+  5. Nếu intent = "pricing_inquiry" → tự động tạo activity gửi báo giá
+- Base automation trigger `on_message_received` → gọi server action → `_ai_process_incoming_email`
+
+**Key files**: `models/crm_lead.py` method `_ai_process_incoming_email`
+
+---
+
+### 3. Voice Recording → Transcript + Meeting Summary
+
+**Luồng**: Sau cuộc gọi, nhân viên upload ghi âm (hoặc record trong app) → AI transcript → tóm tắt → log_meeting + gợi ý next step
+
+**Implementation**:
+- Model `crm.ai.call.summary`:
+  - Fields: `lead_id`, `audio_attachment_id`, `transcript`, `summary`, `action_items`, `sentiment`, `next_activity_type`, `date_call`
+- `CrmAiProcessVoiceWizard`:
+  1. Field `audio_file` (Binary) + `duration_hint`
+  2. `action_transcribe()`: Upload audio → Whisper API (STT) → raw transcript
+  3. `action_summarize()`: Claude API với transcript → JSON: `{summary, action_items[], sentiment, next_step}`
+  4. `action_log()`: Gọi `lead.log_meeting()`, tạo `crm.ai.call.summary`, schedule next activity
+- In-browser recording: `voice_recorder.js` dùng Web Audio API → upload MediaRecorder blob
+- OWL button "🎤 Ghi Âm Cuộc Gọi" trên form lead → mở floating recorder
+
+**Key files**:
+- `models/crm_ai_call_summary.py`
+- `wizard/crm_ai_process_voice.py`
+- `static/src/js/voice_recorder.js`
+
+---
+
+### 4. Chat Integration (Zalo/Telegram/WhatsApp → CRM)
+
+**Luồng**: Webhook nhận message từ Zalo/Telegram/WA → match với lead → log vào chatter → AI phân tích intent
+
+**Implementation**:
+- Webhook endpoint: `POST /crm/ai/webhook/chat`
+  - Header: `X-Source: zalo|telegram|whatsapp`
+  - Body: `{sender_phone, sender_name, message_text, timestamp}`
+- Processing:
+  1. Tìm `crm.lead` theo `phone_sanitized` match `sender_phone`
+  2. Nếu không tìm thấy → tạo lead mới (message_new pattern)
+  3. `lead.message_post(body=f"[{source}] {message_text}")` 
+  4. Gọi AI phân tích: intent, urgency, sentiment → post internal note
+  5. Nếu urgency = high → gửi notification real-time tới salesperson qua discuss.channel
+- Response format: trả về gợi ý reply cho nhân viên
+- Store conversation context (last 10 messages) trong `lead.description` hoặc custom field
+
+**Key files**: `controllers/main.py` `/crm/ai/webhook/chat`
+
+---
+
+### 5. AI Smart Reply Generator
+
+**Luồng**: Nhân viên click "✨ Gợi ý phản hồi" → AI tạo draft email/message → nhân viên edit → gửi
+
+**Implementation**:
+- OWL component `AiReplyPanel` trong chatter (extend `Chatter` component)
+- JSON-RPC: `POST /web/dataset/call_kw crm.lead ai_generate_reply`
+- `crm.lead._ai_generate_reply(context_messages, reply_type)`:
+  1. Lấy 5 messages gần nhất từ `message_ids`
+  2. Lấy thông tin lead: stage, expected_revenue, partner_name
+  3. Gọi Claude với context + tone instruction (professional/friendly/urgent)
+  4. Trả về 2-3 draft options
+- UI: dropdown hiển thị drafts → click để populate compose box
+
+---
+
+### 6. Tự động cập nhật Stage dựa trên tín hiệu
+
+**Luồng**: AI đọc chatter history → nhận diện tín hiệu mua → tự động đề xuất/chuyển stage
+
+**Implementation**:
+- Base automation rule: `on_message_received` + `on_message_sent` → server action
+- `_ai_detect_stage_signal(message_body)`:
+  - Signals: "gửi hợp đồng", "chốt giá", "thanh toán", "đồng ý", "cancel"
+  - Map signals → suggested stage
+  - Post internal note: "🤖 AI gợi ý: Chuyển sang stage 'Proposal Sent'"
+  - Nếu confidence > 90%: tự động `lead.stage_id = suggested_stage`
+  - Nếu confidence 60-90%: tạo activity cho salesperson confirm
+
+---
+
+### 7. Daily AI Digest cho Salesperson
+
+**Luồng**: Mỗi sáng 8h → AI phân tích pipeline của từng nhân viên → gửi tóm tắt qua discuss
+
+**Implementation**:
+- Cron `ir_cron_crm_ai_daily_digest` (daily 8:00 AM)
+- `_send_ai_daily_digest()`:
+  1. Group leads by `user_id`
+  2. Với mỗi salesperson: leads quá hạn, leads hot (high probability), follow-up cần làm hôm nay
+  3. Generate personalized summary với Claude
+  4. Gửi qua `discuss.channel` (DM) hoặc email
+- Format: "Chào [Tên], hôm nay bạn có X leads cần follow-up. Hot nhất: [Lead Name] - đã X ngày chưa phản hồi..."
+
+---
+
+### 8. Document/Contract Analysis
+
+**Luồng**: Attach file PDF/Word vào lead → AI đọc → trích xuất key terms → cập nhật fields
+
+**Implementation**:
+- Override `_message_post_after_hook()` khi attachment là PDF/DOCX
+- `_ai_process_document(attachment)`:
+  1. Extract text từ PDF (pdfminer hoặc gọi API)
+  2. Claude: identify document type (contract, proposal, quotation), extract: amount, deadline, parties, key terms
+  3. Update `lead.expected_revenue`, `lead.date_deadline`, add to `lead_properties`
+  4. Post summary note lên chatter
+
+---
+
+## Cấu hình AI (`crm.ai.config`)
+
+```python
+class CrmAiConfig(models.TransientModel):
+    _name = 'crm.ai.config'
+    
+    ai_provider = fields.Selection([('anthropic', 'Claude'), ('openai', 'OpenAI'), ('local', 'Local LLM')])
+    api_key = fields.Char()           # Stored in ir.config.parameter
+    model_vision = fields.Char()      # claude-opus-4-8 for vision tasks
+    model_text = fields.Char()        # claude-sonnet-4-6 for text tasks (faster/cheaper)
+    model_stt = fields.Char()         # whisper-1 for speech-to-text
+    auto_process_email = fields.Boolean()
+    auto_process_attachment = fields.Boolean()
+    auto_suggest_stage = fields.Boolean()
+    confidence_threshold = fields.Float()  # Auto-move stage threshold
+```
+
+---
+
+## API Design (AI Service Layer)
+
+Tạo `CrmAiService` class tách biệt (không model) để tái sử dụng:
+
+```python
+# models/crm_ai_service.py
+class CrmAiService:
+    def __init__(self, env):
+        self.env = env
+        self.config = self._load_config()
+    
+    def extract_card(self, image_base64) → dict
+    def summarize_email(self, email_body, email_subject) → dict  
+    def transcribe_audio(self, audio_bytes, mime_type) → str
+    def summarize_call(self, transcript, lead_context) → dict
+    def generate_reply(self, conversation_history, context) → list[str]
+    def detect_intent(self, message) → dict
+    def analyze_document(self, text, doc_type_hint) → dict
+```
+
+Dùng `claude-sonnet-4-6` cho text tasks (cost-efficient), `claude-opus-4-8` cho vision/complex analysis.
+
+---
+
+## Phụ thuộc kỹ thuật bổ sung
+
+- `anthropic` Python SDK (pip install anthropic)
+- `openai` SDK (cho Whisper STT nếu không dùng Anthropic)
+- `pdfminer.six` (PDF text extraction)
+- `python-docx` (Word document parsing)
+
+Thêm vào `odoo/requirements.txt` hoặc docker environment.
+
+---
+
+## Verification
+
+### Unit tests
+```
+addons/crm_ai_assistant/tests/
+├── test_card_extraction.py    # Mock Claude API, test field mapping
+├── test_email_processing.py   # Test intent detection, activity creation
+├── test_voice_summary.py      # Test transcript → summary flow
+└── test_stage_detection.py    # Test signal → stage mapping
+```
+
+### End-to-end test
+1. Upload ảnh name card → verify lead created với đúng fields
+2. Send test email tới alias → verify internal note posted + activity created
+3. Upload .mp3 file → verify call summary created + meeting logged
+4. POST `/crm/ai/webhook/chat` → verify message logged + intent detected
+5. Click "Gợi ý phản hồi" trên lead → verify 3 draft options trả về
+
+### Manual QA checklist
+- [ ] Quét name card: 5 ảnh thực tế với độ phân giải khác nhau
+- [ ] Email intent: test với các loại email phàn nàn, hỏi giá, confirm order
+- [ ] Voice: test với tiếng Việt (accents khác nhau), tiếng ồn nền
+- [ ] Stage detection: test với phrases tiếng Việt tự nhiên
+- [ ] Daily digest: verify chỉ gửi leads của đúng salesperson
+
+---
+
+## Thứ tự triển khai (Phased rollout)
+
+**Phase 1 (2 tuần)** - Core infrastructure + Email AI:
+- `crm.ai.config` model + settings UI
+- `CrmAiService` với Claude API integration
+- Auto email summarization + intent detection
+- Daily digest cron
+
+**Phase 2 (2 tuần)** - Voice + Card:
+- Voice recorder UI + Whisper STT
+- Name card scanner wizard + mobile endpoint
+- Call summary model + log integration
+
+**Phase 3 (1 tuần)** - Chat webhooks + Smart reply:
+- Zalo/Telegram/WA webhook endpoints
+- AI smart reply panel (OWL component)
+- Stage auto-detection
+
+**Phase 4 (1 tuần)** - Document analysis + polish:
+- PDF/DOCX parser
+- Fine-tune prompts với dữ liệu thực
+- Performance optimization (async processing via ir.cron queue)

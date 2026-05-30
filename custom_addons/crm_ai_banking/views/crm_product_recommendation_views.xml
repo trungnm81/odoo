@@ -1,0 +1,73 @@
+<odoo>
+    <!-- Eligibility Rules admin view -->
+    <record id="view_product_eligibility_rule_list" model="ir.ui.view">
+        <field name="name">crm.product.eligibility.rule.list</field>
+        <field name="model">crm.product.eligibility.rule</field>
+        <field name="arch" type="xml">
+            <list string="Quy tắc sản phẩm" editable="top">
+                <field name="product_code"/>
+                <field name="product_name"/>
+                <field name="product_category"/>
+                <field name="product_type"/>
+                <field name="min_income_million"/>
+                <field name="min_age"/>
+                <field name="max_age"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_product_eligibility_rule_form" model="ir.ui.view">
+        <field name="name">crm.product.eligibility.rule.form</field>
+        <field name="model">crm.product.eligibility.rule</field>
+        <field name="arch" type="xml">
+            <form string="Quy tắc điều kiện sản phẩm">
+                <sheet>
+                    <group>
+                        <group string="Thông tin sản phẩm">
+                            <field name="product_code"/>
+                            <field name="product_name"/>
+                            <field name="product_category"/>
+                            <field name="product_type"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Điều kiện tối thiểu">
+                            <field name="min_income_million"/>
+                            <field name="min_age"/>
+                            <field name="max_age"/>
+                            <field name="cross_sell_codes"/>
+                        </group>
+                    </group>
+                    <field name="description" string="Mô tả &amp; điểm bán hàng"
+                           placeholder="Mô tả ngắn về sản phẩm và các điểm nổi bật để AI dùng khi gợi ý..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_product_eligibility_rules" model="ir.actions.act_window">
+        <field name="name">Quy tắc sản phẩm</field>
+        <field name="res_model">crm.product.eligibility.rule</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Recommendation history view -->
+    <record id="view_crm_product_recommendation_list" model="ir.ui.view">
+        <field name="name">crm.product.recommendation.list</field>
+        <field name="model">crm.product.recommendation</field>
+        <field name="arch" type="xml">
+            <list string="Lịch sử gợi ý sản phẩm">
+                <field name="lead_id"/>
+                <field name="top_product_name"/>
+                <field name="top_match_score" string="Điểm phù hợp (%)"/>
+                <field name="computed_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_crm_product_recommendation" model="ir.actions.act_window">
+        <field name="name">Gợi ý sản phẩm AI</field>
+        <field name="res_model">crm.product.recommendation</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="crm_lead_form_inherit_ai" model="ir.ui.view">
+        <field name="name">crm.lead.form.inherit.ai</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                <!-- Smart button Hồ Sơ 360° — luôn nổi bật ở đầu -->
+                <button name="action_open_banking_360_popup" type="object"
+                        class="oe_stat_button o_banking_360_btn" icon="fa-user"
+                        invisible="not partner_id">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_text fw-bold">Hồ Sơ 360°</span>
+                    </div>
+                </button>
+                <button name="action_view_ai_calls" type="object"
+                        class="oe_stat_button" icon="fa-phone">
+                    <field name="ai_call_session_count" widget="statinfo" string="Cuộc gọi AI"/>
+                </button>
+                <button name="action_view_ai_documents" type="object"
+                        class="oe_stat_button" icon="fa-file-text-o">
+                    <field name="ai_document_count" widget="statinfo" string="Tài liệu AI"/>
+                </button>
+            </xpath>
+
+            <!-- Badge row: phân khúc, nhóm nợ, xếp hạng, CIF — ngay dưới tên cơ hội -->
+            <xpath expr="//div[hasclass('oe_title')]//h1" position="after">
+                <div class="crm_banking_badges mt-2 mb-1" invisible="not badge_html">
+                    <field name="badge_html" widget="html" readonly="1" nolabel="1"/>
+                </div>
+                <field name="badge_html" invisible="1"/>
+            </xpath>
+
+            <xpath expr="//header" position="inside">
+                <button name="action_start_ai_call" type="object"
+                        string="🎤 Gọi AI" class="btn-secondary"/>
+                <button name="action_send_zalo" type="object"
+                        string="📱 Gửi Zalo" class="btn-secondary"
+                        invisible="not zalo_user_id"/>
+                <button name="action_scan_name_card" type="object"
+                        string="📇 Quét Card" class="btn-secondary"/>
+                <button name="action_scan_gpkd" type="object"
+                        string="🏢 Quét GPKD" class="btn-secondary"/>
+                <button name="action_generate_proposal" type="object"
+                        string="📄 Sinh đề xuất" class="btn-secondary"/>
+                <button name="action_zalo_remind_checklist" type="object"
+                        string="📋 Nhắc hồ sơ Zalo" class="btn-secondary"
+                        invisible="not zalo_user_id or not document_checklist_ids"/>
+            </xpath>
+
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="customer_type"/>
+                <field name="product_type"/>
+                <field name="zalo_user_id" placeholder="Zalo User ID của khách"/>
+                <field name="ai_last_sentiment" readonly="1"
+                       invisible="not ai_last_sentiment"/>
+                <field name="referred_by_partner_id"
+                       invisible="not referred_by_partner_id and type != 'opportunity'"/>
+                <field name="referral_source"
+                       invisible="not referred_by_partner_id"/>
+            </xpath>
+
+            <!-- NBA widget (Phase 4) -->
+            <xpath expr="//sheet" position="before">
+                <!-- Close-Won Alert: hiển thị nổi bật riêng khi NBA = close_won -->
+                <div class="o_nba_closewon_banner alert alert-success p-2 mb-0 border-0 border-bottom"
+                     invisible="nba_action_type != 'close_won' or nba_dismissed">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                        <div>
+                            <span class="fw-bold fs-6 me-2">🏆 KHÁCH HÀNG SẴN SÀNG CHỐT HỢP ĐỒNG!</span>
+                            <strong><field name="nba_action_detail" readonly="1" nolabel="1" style="display:inline"/></strong>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button name="action_nba_start_closing" type="object"
+                                    string="✍️ Lên lịch ký hợp đồng" class="btn btn-sm btn-success"/>
+                            <button name="action_dismiss_nba" type="object"
+                                    string="✕" title="Bỏ qua" class="btn btn-sm btn-outline-secondary"/>
+                        </div>
+                    </div>
+                    <div class="small mt-1 fst-italic" invisible="not nba_suggested_message">
+                        💬 <field name="nba_suggested_message" readonly="1" nolabel="1" style="display:inline"/>
+                    </div>
+                </div>
+                <!-- NBA banner thông thường -->
+                <div class="o_nba_banner alert alert-primary p-2 mb-0 border-0 border-bottom"
+                     invisible="not nba_action_type or nba_dismissed or nba_action_type == 'close_won'">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                        <div>
+                            <span class="fw-bold me-2">🎯 HÀNH ĐỘNG TIẾP THEO:</span>
+                            <span class="badge me-1"
+                                  style="background: var(--bs-danger)"
+                                  invisible="nba_urgency != 'high'">KHẨN</span>
+                            <span class="badge me-1"
+                                  style="background: var(--bs-warning); color:#000"
+                                  invisible="nba_urgency != 'medium'">TRUNG BÌNH</span>
+                            <strong><field name="nba_action_detail" readonly="1" nolabel="1" style="display:inline"/></strong>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button name="action_compute_nba" type="object"
+                                    string="🔄" title="Tính lại" class="btn btn-sm btn-outline-primary"/>
+                            <button name="action_dismiss_nba" type="object"
+                                    string="✕" title="Bỏ qua" class="btn btn-sm btn-outline-secondary"/>
+                        </div>
+                    </div>
+                    <div class="small text-muted mt-1"
+                         invisible="not nba_reasoning">
+                        <field name="nba_reasoning" readonly="1" nolabel="1" style="display:inline"/>
+                    </div>
+                    <div class="small mt-1 fst-italic"
+                         invisible="not nba_suggested_message">
+                        💬 <field name="nba_suggested_message" readonly="1" nolabel="1" style="display:inline"/>
+                    </div>
+                </div>
+                <div class="text-muted p-2 small d-flex gap-3 border-bottom"
+                     invisible="nba_action_type or 1">
+                    <button name="action_compute_nba" type="object"
+                            string="🎯 Tính NBA" class="btn btn-sm btn-outline-secondary"/>
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="crm_case_tree_view_leads_inherit_customer_info" model="ir.ui.view">
+        <field name="name">crm.lead.list.lead.inherit.customer.info</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_leads"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="customer_display_name" string="Tên khách hàng" optional="show"/>
+                <field name="customer_type" string="Loại khách hàng" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="crm_case_tree_view_oppor_inherit_customer_info" model="ir.ui.view">
+        <field name="name">crm.lead.list.opportunity.inherit.customer.info</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="customer_display_name" string="Tên khách hàng" optional="show"/>
+                <field name="customer_type" string="Loại khách hàng" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="crm_lead_form_inherit_checklist" model="ir.ui.view">
+        <field name="name">crm.lead.form.inherit.checklist</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <!-- P4-4 Customer 360 -->
+                <page string="👤 Customer 360°" name="customer_360">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-bold">Tóm tắt 360° — AI tổng hợp từ toàn bộ dữ liệu</span>
+                        <div class="d-flex gap-2">
+                            <button name="action_refresh_customer_360" type="object"
+                                    string="🔄 Cập nhật" class="btn btn-sm btn-outline-primary"/>
+                            <span class="small text-muted" invisible="not customer_360_date">
+                                Cập nhật: <field name="customer_360_date" readonly="1" nolabel="1"
+                                                  widget="datetime" style="display:inline"/>
+                            </span>
+                        </div>
+                    </div>
+                    <field name="customer_360_html" readonly="1" widget="html" nolabel="1"/>
+                </page>
+
+                <page string="Banking 360" name="banking_360" invisible="not partner_id">
+                    <group string="KPI chung">
+                        <field name="banking_profile_ids" nolabel="1" readonly="1">
+                            <list>
+                                <field name="total_deposit_balance"/>
+                                <field name="total_loan_balance"/>
+                                <field name="total_aum"/>
+                                <field name="casa_balance"/>
+                                <field name="toi_mtd"/>
+                                <field name="toi_ytd"/>
+                                <field name="toi_12m"/>
+                                <field name="risk_grade"/>
+                                <field name="risk_level"/>
+                                <field name="corebanking_updated_at"/>
+                            </list>
+                            <form>
+                                <group>
+                                    <group>
+                                        <field name="total_deposit_balance"/>
+                                        <field name="total_loan_balance"/>
+                                        <field name="total_aum"/>
+                                        <field name="total_limit"/>
+                                        <field name="collateral_value"/>
+                                        <field name="casa_balance"/>
+                                    </group>
+                                    <group>
+                                        <field name="toi_mtd"/>
+                                        <field name="toi_ytd"/>
+                                        <field name="toi_12m"/>
+                                        <field name="risk_score"/>
+                                        <field name="risk_grade"/>
+                                        <field name="kyc_status"/>
+                                        <field name="risk_level"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <field name="branch_name"/>
+                                    <field name="rm_name"/>
+                                    <field name="preferred_channel"/>
+                                    <field name="digital_adoption_level"/>
+                                    <field name="corebanking_updated_at"/>
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+                    <group string="Thông tin cá nhân" invisible="customer_type != 'individual'">
+                        <field name="banking_individual_profile_ids" nolabel="1" readonly="1">
+                            <list>
+                                <field name="occupation"/>
+                                <field name="employer_name"/>
+                                <field name="job_title"/>
+                                <field name="monthly_income"/>
+                                <field name="verified_income"/>
+                                <field name="income_stability"/>
+                                <field name="compliance_flags"/>
+                            </list>
+                        </field>
+                    </group>
+                    <group string="Thông tin doanh nghiệp" invisible="customer_type != 'business'">
+                        <field name="banking_business_profile_ids" nolabel="1" readonly="1">
+                            <list>
+                                <field name="industry_name"/>
+                                <field name="legal_form"/>
+                                <field name="employee_count"/>
+                                <field name="annual_revenue"/>
+                                <field name="net_profit"/>
+                                <field name="approved_limit"/>
+                                <field name="used_limit"/>
+                                <field name="debt_group"/>
+                                <field name="toi_credit"/>
+                                <field name="toi_fee"/>
+                            </list>
+                        </field>
+                    </group>
+                    <group string="Sản phẩm đang sử dụng">
+                        <field name="banking_product_holding_ids" nolabel="1" readonly="1">
+                            <list decoration-muted="status != 'active'">
+                                <field name="product_category"/>
+                                <field name="product_code"/>
+                                <field name="product_name"/>
+                                <field name="masked_account_number"/>
+                                <field name="current_balance"/>
+                                <field name="outstanding_balance"/>
+                                <field name="credit_limit"/>
+                                <field name="toi_ytd"/>
+                                <field name="status" widget="badge"/>
+                                <field name="corebanking_updated_at"/>
+                            </list>
+                        </field>
+                    </group>
+                </page>
+
+                <!-- P4-2 Product Recommendations -->
+                <page string="🏦 Sản phẩm phù hợp" name="product_recommendations">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-bold">Gợi ý sản phẩm AI — Rule engine + AI Scoring</span>
+                        <div class="d-flex gap-2">
+                            <button name="action_ai_product_recommendations" type="object"
+                                    string="✨ Phân tích gợi ý" class="btn btn-sm btn-primary"/>
+                            <button name="action_crosssell_suggestions" type="object"
+                                    string="🔁 Cross-sell" class="btn btn-sm btn-outline-secondary"/>
+                        </div>
+                    </div>
+                    <field name="latest_recommendation_html" readonly="1" widget="html" nolabel="1"/>
+                </page>
+
+                <!-- P3-1 Account Map B2B -->
+                <page string="🏢 Account Map B2B" name="account_map">
+                    <div class="small text-muted mb-2">
+                        Danh sách stakeholders — người ảnh hưởng, quyết định và gatekeeper tại doanh nghiệp khách
+                    </div>
+                    <field name="account_contact_ids" nolabel="1">
+                        <list editable="bottom" string="Stakeholders">
+                            <field name="sequence" widget="handle"/>
+                            <field name="name"/>
+                            <field name="role"/>
+                            <field name="title"/>
+                            <field name="department"/>
+                            <field name="influence_level"/>
+                            <field name="relationship_strength" widget="priority"/>
+                            <field name="phone"/>
+                            <field name="email"/>
+                            <field name="last_contact_date"/>
+                        </list>
+                    </field>
+                </page>
+
+                <!-- P3-3 AI Documents (BCTC / GPKD) -->
+                <page string="📊 Tài liệu AI" name="ai_documents">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-bold">Phân tích tài liệu bằng AI — BCTC, GPKD, Sao kê</span>
+                        <button name="action_add_bctc" type="object"
+                                string="+ Thêm tài liệu" class="btn btn-sm btn-primary"/>
+                    </div>
+                    <field name="ai_document_ids" nolabel="1">
+                        <list string="Tài liệu AI"
+                              decoration-success="processing_status == 'done'"
+                              decoration-warning="processing_status == 'processing'"
+                              decoration-danger="processing_status == 'error'">
+                            <field name="document_type"/>
+                            <field name="year"/>
+                            <field name="attachment_name" string="File"/>
+                            <field name="processing_status" widget="badge"/>
+                            <button name="action_analyze" string="Phân tích" type="object"
+                                    invisible="processing_status in ('done', 'processing')"/>
+                        </list>
+                    </field>
+                </page>
+
+                <page string="Hồ sơ / Checklist" name="document_checklist">
+                    <button name="action_create_document_checklist" type="object"
+                            string="+ Tạo checklist từ template"
+                            class="btn-secondary mb-3"
+                            invisible="not product_type"/>
+                    <field name="document_checklist_ids" nolabel="1">
+                        <list string="Checklist">
+                            <field name="product_type" readonly="1"/>
+                            <field name="completion_rate" widget="percentage" readonly="1"/>
+                            <field name="pending_count" readonly="1" string="Còn thiếu"/>
+                        </list>
+                        <form string="Checklist chi tiết">
+                            <group>
+                                <field name="product_type" readonly="1"/>
+                                <field name="completion_rate" widget="percentage" readonly="1"/>
+                                <field name="pending_count" readonly="1"/>
+                            </group>
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="item_name" readonly="1"/>
+                                    <field name="required" readonly="1"/>
+                                    <field name="status"/>
+                                    <field name="submitted_date"/>
+                                    <field name="attachment_id"/>
+                                    <field name="note"/>
+                                </list>
+                            </field>
+                        </form>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

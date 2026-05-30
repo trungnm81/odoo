@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Root menu under CRM -->
+    <menuitem id="menu_crm_ai_banking_root"
+              name="AI Banking"
+              parent="crm.crm_menu_root"
+              sequence="100"/>
+
+    <menuitem id="menu_crm_ai_config"
+              name="Cấu hình AI"
+              parent="menu_crm_ai_banking_root"
+              action="action_crm_ai_config"
+              groups="base.group_system"
+              sequence="10"/>
+
+    <menuitem id="menu_crm_ai_calls"
+              name="Lịch sử cuộc gọi AI"
+              parent="menu_crm_ai_banking_root"
+              action="action_crm_ai_call_session"
+              sequence="20"/>
+
+    <menuitem id="menu_crm_document_checklist_template"
+              name="Templates Hồ sơ"
+              parent="menu_crm_ai_banking_root"
+              action="action_crm_document_checklist_template"
+              groups="base.group_system"
+              sequence="30"/>
+
+    <menuitem id="menu_crm_customer_segment"
+              name="Customer Segments"
+              parent="menu_crm_ai_banking_root"
+              action="action_crm_customer_segment"
+              groups="base.group_system"
+              sequence="35"/>
+
+    <menuitem id="menu_corebanking_sync"
+              name="Core Banking Sync"
+              parent="menu_crm_ai_banking_root"
+              action="action_corebanking_customer_batch"
+              groups="crm_ai_banking.group_corebanking_integration,base.group_system"
+              sequence="36"/>
+
+    <menuitem id="menu_corebanking_staging"
+              name="Core Banking Staging"
+              parent="menu_crm_ai_banking_root"
+              action="action_corebanking_customer_staging"
+              groups="crm_ai_banking.group_corebanking_integration,base.group_system"
+              sequence="37"/>
+
+    <menuitem id="menu_banking_customer_profile"
+              name="Banking 360 Profiles"
+              parent="menu_crm_ai_banking_root"
+              action="action_banking_customer_profile"
+              groups="crm_ai_banking.group_corebanking_integration,base.group_system"
+              sequence="38"/>
+
+    <menuitem id="menu_banking_product_holding"
+              name="Sản phẩm đang sử dụng"
+              parent="menu_crm_ai_banking_root"
+              action="action_banking_product_holding"
+              groups="crm_ai_banking.group_corebanking_integration,base.group_system"
+              sequence="39"/>
+
+    <!-- Phase 3 menus -->
+    <menuitem id="menu_crm_ai_document"
+              name="Tài liệu AI (BCTC/GPKD)"
+              parent="menu_crm_ai_banking_root"
+              action="action_crm_ai_document"
+              sequence="40"/>
+
+    <menuitem id="menu_product_eligibility_rules"
+              name="Quy tắc sản phẩm"
+              parent="menu_crm_ai_banking_root"
+              action="action_product_eligibility_rules"
+              groups="base.group_system"
+              sequence="50"/>
+
+    <!-- Phase 4 menus -->
+    <menuitem id="menu_crm_ai_coaching_report"
+              name="Báo cáo Sales Coach"
+              parent="menu_crm_ai_banking_root"
+              action="action_crm_ai_coaching_report"
+              sequence="60"/>
+
+    <menuitem id="menu_crm_product_recommendation"
+              name="Gợi ý sản phẩm AI"
+              parent="menu_crm_ai_banking_root"
+              action="action_crm_product_recommendation"
+              sequence="70"/>
+
+</odoo>

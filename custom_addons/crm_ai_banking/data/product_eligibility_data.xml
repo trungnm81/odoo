@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="rule_vay_mua_nha_a" model="crm.product.eligibility.rule">
+        <field name="product_code">HOME_LOAN_A</field>
+        <field name="product_name">Vay mua nhà lãi suất ưu đãi</field>
+        <field name="product_category">credit</field>
+        <field name="product_type">vay_mua_nha</field>
+        <field name="min_income_million">15.0</field>
+        <field name="min_age">22</field>
+        <field name="max_age">65</field>
+        <field name="description">Gói vay mua nhà với lãi suất cố định 2 năm đầu, tài trợ tối đa 80% giá trị tài sản, thời hạn đến 30 năm. Không phí trả trước hạn sau 3 năm.</field>
+        <field name="cross_sell_codes">FIRE_INS,HOME_CARE_INS</field>
+    </record>
+
+    <record id="rule_vay_kinh_doanh_a" model="crm.product.eligibility.rule">
+        <field name="product_code">BIZ_LOAN_A</field>
+        <field name="product_name">Vay kinh doanh ngắn hạn</field>
+        <field name="product_category">credit</field>
+        <field name="product_type">vay_kinh_doanh</field>
+        <field name="min_income_million">20.0</field>
+        <field name="min_age">21</field>
+        <field name="max_age">65</field>
+        <field name="description">Vay vốn lưu động và đầu tư tài sản cố định cho doanh nghiệp. Thời hạn 12-60 tháng, hạn mức linh hoạt theo nhu cầu.</field>
+        <field name="cross_sell_codes">POS,PAYROLL_SVC</field>
+    </record>
+
+    <record id="rule_the_tin_dung_vang" model="crm.product.eligibility.rule">
+        <field name="product_code">CC_GOLD</field>
+        <field name="product_name">Thẻ tín dụng Vàng</field>
+        <field name="product_category">card</field>
+        <field name="product_type">the_tin_dung</field>
+        <field name="min_income_million">10.0</field>
+        <field name="min_age">21</field>
+        <field name="max_age">70</field>
+        <field name="description">Thẻ tín dụng hạng Vàng, hạn mức 50-200 triệu, hoàn tiền 1.5% cho mọi giao dịch, miễn phí năm đầu.</field>
+        <field name="cross_sell_codes">CC_PLATINUM</field>
+    </record>
+
+    <record id="rule_the_tin_dung_platinum" model="crm.product.eligibility.rule">
+        <field name="product_code">CC_PLATINUM</field>
+        <field name="product_name">Thẻ tín dụng Bạch Kim</field>
+        <field name="product_category">card</field>
+        <field name="product_type">the_tin_dung</field>
+        <field name="min_income_million">25.0</field>
+        <field name="min_age">25</field>
+        <field name="max_age">70</field>
+        <field name="description">Thẻ Platinum hạn mức 200 triệu+, hoàn tiền 2%, lounge sân bay, bảo hiểm du lịch toàn cầu.</field>
+        <field name="cross_sell_codes">TRAVEL_INS</field>
+    </record>
+
+    <record id="rule_tiet_kiem_online" model="crm.product.eligibility.rule">
+        <field name="product_code">SAVINGS_ONLINE</field>
+        <field name="product_name">Tiết kiệm Online lãi suất cao</field>
+        <field name="product_category">savings</field>
+        <field name="product_type">tiet_kiem</field>
+        <field name="min_income_million">0.0</field>
+        <field name="min_age">18</field>
+        <field name="max_age">80</field>
+        <field name="description">Gửi tiết kiệm online kỳ hạn 1-24 tháng, lãi suất cạnh tranh, tất toán linh hoạt, không phí giao dịch.</field>
+        <field name="cross_sell_codes">SAVINGS_PREMIUM</field>
+    </record>
+
+    <record id="rule_payroll" model="crm.product.eligibility.rule">
+        <field name="product_code">PAYROLL_SVC</field>
+        <field name="product_name">Dịch vụ Payroll doanh nghiệp</field>
+        <field name="product_category">payment</field>
+        <field name="product_type">payroll</field>
+        <field name="min_income_million">0.0</field>
+        <field name="min_age">21</field>
+        <field name="max_age">70</field>
+        <field name="description">Giải pháp chi lương tự động cho doanh nghiệp, tích hợp phần mềm nhân sự, chi lương đúng hạn 24/7.</field>
+        <field name="cross_sell_codes">POS,BIZ_LOAN_A</field>
+    </record>
+
+    <record id="rule_pos" model="crm.product.eligibility.rule">
+        <field name="product_code">POS</field>
+        <field name="product_name">Máy POS thanh toán thẻ</field>
+        <field name="product_category">payment</field>
+        <field name="product_type">other</field>
+        <field name="min_income_million">0.0</field>
+        <field name="min_age">21</field>
+        <field name="max_age">70</field>
+        <field name="description">Máy POS không dây, phí giao dịch cạnh tranh, quyết toán T+1, hỗ trợ QR Pay và Apple/Google Pay.</field>
+        <field name="cross_sell_codes">PAYROLL_SVC</field>
+    </record>
+
+    <record id="rule_lc_fx" model="crm.product.eligibility.rule">
+        <field name="product_code">LC_FX</field>
+        <field name="product_name">L/C &amp; Thanh toán quốc tế</field>
+        <field name="product_category">trade</field>
+        <field name="product_type">lc_fx</field>
+        <field name="min_income_million">0.0</field>
+        <field name="min_age">21</field>
+        <field name="max_age">70</field>
+        <field name="description">Phát hành L/C, bảo lãnh, mua bán ngoại tệ tỉ giá tốt, tư vấn hedging rủi ro tỉ giá cho doanh nghiệp xuất nhập khẩu.</field>
+        <field name="cross_sell_codes">BIZ_LOAN_A</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_banking_profile_360_popup" model="ir.ui.view">
+        <field name="name">crm.banking.customer.profile.360.popup</field>
+        <field name="model">crm.banking.customer.profile</field>
+        <field name="arch" type="xml">
+            <form string="Hồ Sơ 360°" create="false" edit="false" delete="false">
+                <sheet>
+                    <div class="d-flex align-items-center mb-3 gap-2">
+                        <span class="fw-bold fs-5">
+                            <field name="partner_id" readonly="1" nolabel="1"/>
+                        </span>
+                        <span class="text-muted small">
+                            CIF: <field name="cif_code" readonly="1" nolabel="1"
+                                        placeholder="—"/>
+                        </span>
+                        <span invisible="not customer_segment"
+                              class="badge bg-warning text-dark ms-auto">
+                            <field name="customer_segment" readonly="1" nolabel="1"/>
+                        </span>
+                    </div>
+
+                    <div class="row g-3">
+                        <!-- Cột trái: Số dư -->
+                        <div class="col-12 col-sm-6">
+                            <table class="table table-sm table-bordered mb-0">
+                                <thead class="table-primary">
+                                    <tr><th colspan="2">💰 Số Dư</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-muted small">Tiền gửi</td>
+                                        <td class="text-end fw-semibold">
+                                            <field name="total_deposit_balance"
+                                                   widget="monetary" readonly="1" nolabel="1"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted small">Dư nợ</td>
+                                        <td class="text-end fw-semibold">
+                                            <field name="total_loan_balance"
+                                                   widget="monetary" readonly="1" nolabel="1"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted small">CASA</td>
+                                        <td class="text-end">
+                                            <field name="casa_balance"
+                                                   widget="monetary" readonly="1" nolabel="1"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted small">AUM</td>
+                                        <td class="text-end">
+                                            <field name="total_aum"
+                                                   widget="monetary" readonly="1" nolabel="1"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted small">TSĐB</td>
+                                        <td class="text-end">
+                                            <field name="collateral_value"
+                                                   widget="monetary" readonly="1" nolabel="1"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Cột phải: TOI + Rủi ro -->
+                        <div class="col-12 col-sm-6">
+                            <table class="table table-sm table-bordered mb-2">
+                                <thead class="table-success">
+                                    <tr><th colspan="2">📈 Thu Nhập (TOI)</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-muted small">MTD</td>
+                                        <td class="text-end fw-semibold">
+                                            <field name="toi_mtd"
+                                                   widget="monetary" readonly="1" nolabel="1"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted small">YTD</td>
+                                        <td class="text-end fw-semibold">
+                                            <field name="toi_ytd"
+                                                   widget="monetary" readonly="1" nolabel="1"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted small">12 tháng</td>
+                                        <td class="text-end">
+                                            <field name="toi_12m"
+                                                   widget="monetary" readonly="1" nolabel="1"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table table-sm table-bordered mb-0">
+                                <thead class="table-secondary">
+                                    <tr><th colspan="2">🔒 Rủi Ro &amp; KYC</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-muted small">Xếp hạng</td>
+                                        <td><field name="risk_grade" readonly="1" nolabel="1" placeholder="—"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted small">Risk level</td>
+                                        <td><field name="risk_level" readonly="1" nolabel="1" placeholder="—"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted small">KYC</td>
+                                        <td><field name="kyc_status" readonly="1" nolabel="1" placeholder="—"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="text-muted small mt-3 text-end">
+                        Cập nhật: <field name="corebanking_updated_at"
+                                          widget="datetime" readonly="1" nolabel="1"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

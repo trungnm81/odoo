@@ -1,0 +1,77 @@
+2026-05-30 01:50:53,889 28501 INFO ? odoo: Odoo version 19.0 
+2026-05-30 01:50:53,889 28501 INFO ? odoo: Using configuration file at /Users/trung/projects/odoo/odoo.conf 
+2026-05-30 01:50:53,889 28501 INFO ? odoo: addons paths: _NamespacePath(['/Users/trung/projects/odoo/odoo/addons', '/Users/trung/Library/Application Support/Odoo/addons/19.0', '/Users/trung/projects/odoo/addons', '/Users/trung/projects/odoo/custom_addons']) 
+2026-05-30 01:50:53,889 28501 INFO ? odoo: database: odoo@localhost:5433 
+2026-05-30 01:51:09,894 28609 INFO ? odoo: Odoo version 19.0 
+2026-05-30 01:51:09,894 28609 INFO ? odoo: Using configuration file at /Users/trung/projects/odoo/odoo.conf 
+2026-05-30 01:51:09,894 28609 INFO ? odoo: addons paths: _NamespacePath(['/Users/trung/projects/odoo/odoo/addons', '/Users/trung/Library/Application Support/Odoo/addons/19.0', '/Users/trung/projects/odoo/addons', '/Users/trung/projects/odoo/custom_addons']) 
+2026-05-30 01:51:09,894 28609 INFO ? odoo: database: odoo@localhost:5433 
+2026-05-30 01:51:10,135 28609 INFO ? odoo.service.server: HTTP service (werkzeug) running on 192.168.102.8:8079 
+2026-05-30 01:51:10,164 28609 INFO odoo_dev odoo.tests.common: Importing test framework 
+2026-05-30 01:51:10,194 28609 INFO odoo_dev odoo.modules.loading: loading 1 modules... 
+2026-05-30 01:51:10,456 28609 INFO odoo_dev odoo.modules.loading: 1 modules loaded in 0.26s, 0 queries (+0 extra) 
+2026-05-30 01:51:10,483 28609 INFO odoo_dev odoo.modules.loading: loading 92 modules... 
+2026-05-30 01:51:11,258 28609 INFO odoo_dev odoo.modules.loading: 92 modules loaded in 0.77s, 0 queries (+0 extra) 
+2026-05-30 01:51:11,341 28609 INFO odoo_dev odoo.modules.loading: Modules loaded. 
+2026-05-30 01:51:11,390 28609 INFO odoo_dev odoo.registry: Registry loaded in 1.255s 
+2026-05-30 01:51:11,390 28609 INFO odoo_dev odoo.service.server: Starting post tests 
+2026-05-30 01:51:11,589 28609 INFO odoo_dev odoo.addons.auth_signup.models.res_users: Signup email sent for user <corebanking_sales_user> to <c.c@example.com> 
+2026-05-30 01:51:11,592 28609 INFO odoo_dev odoo.addons.crm_ai_banking.tests.test_corebanking_sync: Starting TestCorebankingSync.test_convert_business_lead_returns_company_partner ... 
+2026-05-30 01:51:11,633 28609 INFO odoo_dev odoo.addons.crm_ai_banking.tests.test_corebanking_sync: Starting TestCorebankingSync.test_convert_individual_lead_creates_individual_partner_without_cif_or_segment ... 
+2026-05-30 01:51:11,657 28609 INFO odoo_dev odoo.addons.crm_ai_banking.tests.test_corebanking_sync: Starting TestCorebankingSync.test_corebanking_staging_unmapped_segment_keeps_code_without_segment ... 
+2026-05-30 01:51:11,672 28609 INFO odoo_dev odoo.addons.crm_ai_banking.tests.test_corebanking_sync: Starting TestCorebankingSync.test_corebanking_staging_upserts_by_cif_and_maps_segment ... 
+2026-05-30 01:51:11,692 28609 INFO odoo_dev odoo.addons.crm_ai_banking.tests.test_corebanking_sync: Starting TestCorebankingSync.test_sales_user_cannot_write_cif_or_segment ... 
+2026-05-30 01:51:11,717 28609 INFO odoo_dev odoo.addons.crm_ai_banking.tests.test_corebanking_sync: Starting TestCorebankingSync.test_segment_must_match_partner_customer_type ... 
+2026-05-30 01:51:11,737 28609 INFO odoo_dev odoo.addons.crm_ai_banking.tests.test_corebanking_sync: ====================================================================== 
+2026-05-30 01:51:11,737 28609 ERROR odoo_dev odoo.addons.crm_ai_banking.tests.test_corebanking_sync: FAIL: TestCorebankingSync.test_segment_must_match_partner_customer_type
+Traceback (most recent call last):
+  File "/Users/trung/projects/odoo/custom_addons/crm_ai_banking/tests/test_corebanking_sync.py", line 121, in test_segment_must_match_partner_customer_type
+    with self.assertRaises(ValidationError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 148, in __exit__
+    next(self.gen)
+    ~~~~^^^^^^^^^^
+  File "/Users/trung/projects/odoo/odoo/tests/common.py", line 514, in _assertRaises
+    with ExitStack() as inner:
+         ~~~~~~~~~^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 619, in __exit__
+    raise exc
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 604, in __exit__
+    if cb(*exc_details):
+       ~~^^^^^^^^^^^^^^
+AssertionError: ValidationError not raised
+ 
+2026-05-30 01:51:11,754 28609 INFO odoo_dev odoo.addons.base.models.ir_attachment: filestore gc 1 checked, 1 removed 
+2026-05-30 01:51:11,757 28609 INFO odoo_dev odoo.service.server: 6 post-tests in 0.37s, 413 queries 
+2026-05-30 01:51:11,757 28609 INFO odoo_dev odoo.tests.stats: crm_ai_banking: 8 tests 0.35s 413 queries 
+2026-05-30 01:51:11,758 28609 ERROR odoo_dev odoo.tests.result: 1 failed, 0 error(s) of 6 tests when loading database 'odoo_dev' 
+2026-05-30 01:51:11,758 28609 INFO odoo_dev odoo.service.server: Initiating shutdown 
+2026-05-30 01:51:11,758 28609 INFO odoo_dev odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-05-30 01:51:12,144 28609 INFO odoo_dev odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections  
+2026-05-30 01:51:37,970 28819 INFO ? odoo: Odoo version 19.0 
+2026-05-30 01:51:37,970 28819 INFO ? odoo: Using configuration file at /Users/trung/projects/odoo/odoo.conf 
+2026-05-30 01:51:37,970 28819 INFO ? odoo: addons paths: _NamespacePath(['/Users/trung/projects/odoo/odoo/addons', '/Users/trung/Library/Application Support/Odoo/addons/19.0', '/Users/trung/projects/odoo/addons', '/Users/trung/projects/odoo/custom_addons']) 
+2026-05-30 01:51:37,970 28819 INFO ? odoo: database: odoo@localhost:5433 
+2026-05-30 01:51:38,191 28819 INFO ? odoo.service.server: HTTP service (werkzeug) running on 192.168.102.8:8079 
+2026-05-30 01:51:38,213 28819 INFO odoo_dev odoo.tests.common: Importing test framework 
+2026-05-30 01:51:38,241 28819 INFO odoo_dev odoo.modules.loading: loading 1 modules... 
+2026-05-30 01:51:38,386 28819 INFO odoo_dev odoo.modules.loading: 1 modules loaded in 0.14s, 0 queries (+0 extra) 
+2026-05-30 01:51:38,412 28819 INFO odoo_dev odoo.modules.loading: loading 92 modules... 
+2026-05-30 01:51:38,871 28819 INFO odoo_dev odoo.modules.loading: 92 modules loaded in 0.46s, 0 queries (+0 extra) 
+2026-05-30 01:51:38,956 28819 INFO odoo_dev odoo.modules.loading: Modules loaded. 
+2026-05-30 01:51:39,008 28819 INFO odoo_dev odoo.registry: Registry loaded in 0.816s 
+2026-05-30 01:51:39,008 28819 INFO odoo_dev odoo.service.server: Starting post tests 
+2026-05-30 01:51:39,213 28819 INFO odoo_dev odoo.addons.auth_signup.models.res_users: Signup email sent for user <corebanking_sales_user> to <c.c@example.com> 
+2026-05-30 01:51:39,216 28819 INFO odoo_dev odoo.addons.crm_ai_banking.tests.test_corebanking_sync: Starting TestCorebankingSync.test_convert_business_lead_returns_company_partner ... 
+2026-05-30 01:51:39,259 28819 INFO odoo_dev odoo.addons.crm_ai_banking.tests.test_corebanking_sync: Starting TestCorebankingSync.test_convert_individual_lead_creates_individual_partner_without_cif_or_segment ... 
+2026-05-30 01:51:39,285 28819 INFO odoo_dev odoo.addons.crm_ai_banking.tests.test_corebanking_sync: Starting TestCorebankingSync.test_corebanking_staging_unmapped_segment_keeps_code_without_segment ... 
+2026-05-30 01:51:39,302 28819 INFO odoo_dev odoo.addons.crm_ai_banking.tests.test_corebanking_sync: Starting TestCorebankingSync.test_corebanking_staging_upserts_by_cif_and_maps_segment ... 
+2026-05-30 01:51:39,324 28819 INFO odoo_dev odoo.addons.crm_ai_banking.tests.test_corebanking_sync: Starting TestCorebankingSync.test_sales_user_cannot_write_cif_or_segment ... 
+2026-05-30 01:51:39,353 28819 INFO odoo_dev odoo.addons.crm_ai_banking.tests.test_corebanking_sync: Starting TestCorebankingSync.test_segment_must_match_partner_customer_type ... 
+2026-05-30 01:51:39,383 28819 INFO odoo_dev odoo.addons.base.models.ir_attachment: filestore gc 1 checked, 1 removed 
+2026-05-30 01:51:39,385 28819 INFO odoo_dev odoo.service.server: 6 post-tests in 0.38s, 413 queries 
+2026-05-30 01:51:39,386 28819 INFO odoo_dev odoo.tests.stats: crm_ai_banking: 8 tests 0.36s 413 queries 
+2026-05-30 01:51:39,386 28819 INFO odoo_dev odoo.tests.result: 0 failed, 0 error(s) of 6 tests when loading database 'odoo_dev' 
+2026-05-30 01:51:39,386 28819 INFO odoo_dev odoo.service.server: Initiating shutdown 
+2026-05-30 01:51:39,386 28819 INFO odoo_dev odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-05-30 01:51:39,701 28819 INFO odoo_dev odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections  
